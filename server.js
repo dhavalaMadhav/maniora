@@ -234,7 +234,7 @@ app.post("/register", async (req, res) => {
             res.cookie("jwt", token, {
                 expires: new Date(Date.now() + 60*60*1000),
                 httpOnly: true,
-                secure: true // Set to true if using HTTPS
+                secure: process.env.NODE_ENV === "production" // Set to true if using HTTPS
             });
             console.log(cookie);
             registerUsers.save().then(() => {
@@ -267,7 +267,7 @@ app.post("/login" , async (req, res) => {
                 res.cookie("jwt", token, {
                     expires: new Date(Date.now() + 60*60*1000),
                     httpOnly: true,     
-                    secure: true // Set to true if using HTTPS
+                    secure: process.env.NODE_ENV === "production" // Set to true if using HTTPS
                 });
 
             if (user.email === "admin@gmail.com") {
@@ -303,7 +303,7 @@ app.get('/logout', auth, async (req, res) => {
         // Clear the JWT cookie
     res.clearCookie("jwt", {
     httpOnly: true,
-    secure: true, // or true if using HTTPS
+    secure: process.env.NODE_ENV === "production", // or true if using HTTPS
     path: "/"
 });
         req.user.tokens = req.user.tokens.filter((token) => {
