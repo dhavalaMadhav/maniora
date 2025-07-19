@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Authority - Authentication Portal</title>
+    <meta name="description" content="Modern authentication system for Port Authority administrators">
+    
+    <!-- Preload Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Swiss Design System */
+        :root {
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --gray: #2a2a2a;
+            --light-gray: #3a3a3a;
+            --lighter-gray: #4a4a4a;
+            --lightest-gray: #eaeaea;
+            --white: #fafafa;
+            --accent: #0066ff;
+            --accent-dark: #0052cc;
+            --error: #ff3333;
+            --success: #00cc66;
+        }
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            letter-spacing: -0.025em;
+            min-height: 100vh;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Animation keyframes */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes placeholder-shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        /* Main container */
+        .main-container {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Left content area */
+        .content-area {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--black) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid var(--gray);
+        }
+
+        .content-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233a3a3a' fill-opacity='0.3'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .content-inner {
+            position: relative;
+            z-index: 1;
+            animation: slide-in-left 0.8s ease-out;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo-icon::after {
+            content: '';
+            width: 1rem;
+            height: 1rem;
+            background: var(--white);
+            border-radius: 0.25rem;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: -0.025em;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.035em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--lighter-gray);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--lighter-gray);
+            font-size: 0.95rem;
+        }
+
+        .feature-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Right form area */
+        .form-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--black);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            animation: fade-in 0.8s ease-out 0.2s both;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .form-subtitle {
+            font-size: 0.95rem;
+            color: var(--lighter-gray);
+            font-weight: 400;
+        }
+
+        /* Form styling */
+        .form {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--lightest-gray);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            color: var(--lighter-gray);
+            z-index: 1;
+        }
+
+        .input {
+            width: 100%;
+            height: 3rem;
+            padding: 0 1rem 0 2.75rem;
+            background: var(--dark-gray);
+            border: 1.5px solid var(--gray);
+            border-radius: 0.5rem;
+            color: var(--white);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .input::placeholder {
+            color: var(--lighter-gray);
+            animation: placeholder-shimmer 2s linear infinite;
+            background: linear-gradient(to right, var(--dark-gray) 8%, var(--gray) 18%, var(--dark-gray) 33%);
+            background-size: 800px 104px;
+            position: relative;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--dark-gray);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--lighter-gray);
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+
+        .password-toggle:hover {
+            color: var(--white);
+        }
+
+        /* Button styling */
+        .submit-btn {
+            width: 100%;
+            height: 3rem;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.15);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .secondary-btn {
+            width: 100%;
+            height: 3rem;
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid var(--gray);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .secondary-btn:hover {
+            border-color: var(--lighter-gray);
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Separator */
+        .separator-container {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .separator {
+            height: 1px;
+            background: var(--gray);
+        }
+
+        .separator-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--black);
+            padding: 0 0.75rem;
+            font-size: 0.825rem;
+            color: var(--lighter-gray);
+            font-weight: 400;
+        }
+
+        /* Footer links */
+        .footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--lighter-gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 400;
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--lighter-gray);
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+
+        .footer-text a {
+            color: var(--lighter-gray);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-text a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        /* Form switching */
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--lighter-gray);
+            font-size: 0.875rem;
+        }
+
+        .auth-switch a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 0.25rem;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hidden class for form switching */
+        .hidden {
+            display: none;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success);
+            color: var(--white);
+            padding: 0.875rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-area {
+                display: none;
+            }
+            
+            .form-area {
+                padding: 3rem 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-area {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-container {
+                max-width: 100%;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Radio button styling */
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--gray);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            flex: 1;
+            justify-content: center;
+            background: var(--dark-gray);
+        }
+
+        .radio-option:hover {
+            border-color: var(--accent);
+        }
+
+        .radio-option.selected {
+            border-color: var(--accent);
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .radio-input {
+            width: 1rem;
+            height: 1rem;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .radio-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--white);
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .radio-option:hover .radio-label {
+            color: var(--white);
+        }
+
+        .radio-option.selected .radio-label {
+            color: var(--white);
+        }
+
+        /* Loading animation */
+        .loading-dots {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .loading-dots span {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: var(--white);
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { 
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Floating elements animation */
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+            display: none;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 70px;
+            height: 70px;
+            top: 60%;
+            left: 25%;
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Content Area -->
+        <div class="content-area">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            
+            <div class="content-inner">
+                <div class="brand-logo">
+                    <div class="logo-icon"></div>
+                    <span class="brand-name">Preset Market</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    The ultimate<br>
+                     tool for modern creators!
+                </h1>
+                
+                <p class="hero-subtitle">
+                    In a world of endless creativity, a preset marketplace isn’t just selling tools—it’s trading inspiration. The right preset can turn a blank canvas into a masterpiece, a silent idea into a roaring vision.
+                </p>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"></div>
+                        Fast professional results
+
+
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"></div>
+                        Saves hours of work
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"></div>
+                        Keep your style consistent
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"></div>
+                        Connects artists worldwide
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Form Area -->
+        <div class="form-area">
+            <div class="form-container">
+                <!-- Login Form -->
+                <div id="login-form">
+                    <div class="form-header">
+                        <h2 class="form-title">Sign In</h2>
+                        <p class="form-subtitle">Access your admin dashboard</p>
+                    </div>
+
+                    <form class="form" id="loginForm" method="post" action="/login">                      
+                        <div class="form-group">
+                            <label for="login-email" class="label">Email Address</label>
+                            <div class="input-container">
+                                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <input
+                                    type="email"
+                                    id="login-email"
+                                    name="email"
+                                    class="input"
+                                    placeholder="your@email.com"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="login-password" class="label">Password</label>
+                            <div class="input-container">
+                                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <input
+                                    type="password"
+                                    id="login-password"
+                                    name="password"
+                                    class="input"
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                                <button type="button" class="password-toggle" onclick="togglePassword('login-password')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="login-btn">
+                            <span id="login-btn-text">Sign In</span>
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div class="separator-container">
+                        <div class="separator"></div>
+                        <span class="separator-text">Or</span>
+                    </div>
+
+                    <button class="secondary-btn">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        Sign in with SSO
+                    </button>
+
+                    <div class="auth-switch">
+                        Don't have an account? <a href="#" onclick="showSignupForm()">Sign up</a>
+                    </div>
+
+                    <div class="footer">
+                        <a href="forgot-password" class="footer-link">Forgot your password?</a>
+                        <p class="footer-text">
+                            By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signup-form" class="hidden">
+                    <div class="form-header">
+                        <h2 class="form-title">Create Account</h2>
+                        <p class="form-subtitle">Register for admin access</p>
+                    </div>
+
+                    <form class="form" id="signupForm" method="post" action="/register">                      
+                        <div class="form-group">
+                            <label for="signup-email" class="label">Email Address</label>
+                            <div class="input-container">
+                                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <input
+                                    type="email"
+                                    id="signup-email"
+                                    name="email"
+                                    class="input"
+                                    placeholder="your@email.com"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signup-password" class="label">Password</label>
+                            <div class="input-container">
+                                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <input
+                                    type="password"
+                                    id="signup-password"
+                                    name="password"
+                                    class="input"
+                                    placeholder="Create a strong password"
+                                    required
+                                />
+                                <button type="button" class="password-toggle" onclick="togglePassword('signup-password')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm-password" class="label">Confirm Password</label>
+                            <div class="input-container">
+                                <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <input
+                                    type="password"
+                                    id="confirm-password"
+                                    name="confirmPassword"
+                                    class="input"
+                                    placeholder="Confirm your password"
+                                    required
+                                />
+                                <button type="button" class="password-toggle" onclick="togglePassword('confirm-password')">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Account Type</label>
+                            <div class="radio-group">
+                                <div class="radio-option" onclick="selectRole('admin')">
+                                    <input type="radio" id="role-admin" name="role" value="admin" class="radio-input" hidden>
+                                    <label for="role-admin" class="radio-label">Admin</label>
+                                </div>
+                                <div class="radio-option" onclick="selectRole('operator')">
+                                    <input type="radio" id="role-operator" name="role" value="operator" class="radio-input" hidden>
+                                    <label for="role-operator" class="radio-label">Operator</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="signup-btn">
+                            <span id="signup-btn-text">Create Account</span>
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <div class="separator-container">
+                        <div class="separator"></div>
+                        <span class="separator-text">Or</span>
+                    </div>
+
+                    <button class="secondary-btn">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        Register with SSO
+                    </button>
+
+                    <div class="auth-switch">
+                        Already have an account? <a href="#" onclick="showLoginForm()">Sign in</a>
+                    </div>
+
+                    <div class="footer">
+                        <p class="footer-text">
+                            By registering, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form switching functions
+        function showSignupForm() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('signup-form').classList.remove('hidden');
+        }
+
+        function showLoginForm() {
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+        }
+
+        // Role selection function
+        function selectRole(role) {
+            // Remove selected class from all options
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Check the corresponding radio button
+            document.getElementById('role-' + role).checked = true;
+        }
+
+        // Password toggle function
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeIcon = passwordField.parentElement.querySelector('.password-toggle svg');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                `;
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
+        }
+
+        // Toast notification function
+        function showToast(message, isError = false) {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = `toast${isError ? ' error' : ''}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Form submission handlers
+        // document.getElementById('loginForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+        //     const loginBtn = document.getElementById('login-btn');
+        //     const loginBtnText = document.getElementById('login-btn-text');
+            
+        //     // Show loading state
+        //     loginBtn.disabled = true;
+        //     loginBtnText.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span>';
+            
+            // Simulate API call
+            // setTimeout(() => {
+            //     // Reset button state
+            //     loginBtn.disabled = false;
+            //     loginBtnText.textContent = 'Sign In';
+                
+            //     // Show success message
+                // showToast('Login successful! Redirecting...');
+                
+                // Here you would typically send the
+        </script>
+    </body>
+    </html>

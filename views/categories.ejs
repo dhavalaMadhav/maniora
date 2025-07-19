@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .page-header {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .page-header p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--gap);
+            margin-bottom: 80px;
+        }
+        
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+        }
+        
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .category-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text);
+        }
+        
+        .copyright {
+            margin-top: 64px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 36px;
+            }
+            
+            .page-header p {
+                font-size: 18px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index" class="logo">PresetMarket</a>
+                <div class="nav-links">
+                    <a href="index">Marketplace</a>
+                    <a href="categories.html" class="active">Categories</a>
+                    <a href="creators.html">Creators</a>
+                    <a href="about.html">About</a>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    <button class="btn btn-filled" onclick="window.location.href='signup.html'">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Browse by Category</h1>
+                <p>Find the perfect presets for your creative workflow by exploring our specialized categories</p>
+            </div>
+        </section>
+        
+        <section class="container">
+            <div class="categories-grid">
+                <!-- Category 1 -->
+                <a href="category-photography.html" class="category-card">
+                    <div class="category-icon">📷</div>
+                    <h3 class="category-title">Photography</h3>
+                    <p class="category-count">1,240 Presets</p>
+                </a>
+                
+                <!-- Category 2 -->
+                <a href="category-video.html" class="category-card">
+                    <div class="category-icon">🎥</div>
+                    <h3 class="category-title">Video</h3>
+                    <p class="category-count">856 Presets</p>
+                </a>
+                
+                <!-- Category 3 -->
+                <a href="category-audio.html" class="category-card">
+                    <div class="category-icon">🎵</div>
+                    <h3 class="category-title">Audio</h3>
+                    <p class="category-count">1,532 Presets</p>
+                </a>
+                
+                <!-- Category 4 -->
+                <a href="category-design.html" class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3 class="category-title">Design</h3>
+                    <p class="category-count">723 Presets</p>
+                </a>
+                
+                <!-- Category 5 -->
+                <a href="category-3d.html" class="category-card">
+                    <div class="category-icon">🖥️</div>
+                    <h3 class="category-title">3D</h3>
+                    <p class="category-count">498 Presets</p>
+                </a>
+                
+                <!-- Category 6 -->
+                <a href="category-daw.html" class="category-card">
+                    <div class="category-icon">🎛️</div>
+                    <h3 class="category-title">DAW</h3>
+                    <p class="category-count">1,045 Presets</p>
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Marketplace</h3>
+                    <ul>
+                        <li><a href="index">Browse Presets</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="creators.html">Top Creators</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Creators</h3>
+                    <ul>
+                        <li><a href="become-creator.html">Become a Creator</a></li>
+                        <li><a href="dashboard.html">Creator Dashboard</a></li>
+                        <li><a href="pricing.html">Pricing Guidelines</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 PresetMarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

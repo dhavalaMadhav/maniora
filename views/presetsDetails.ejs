@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nordic Lightroom Preset | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
+            border-radius: 32px;
+        }
+        
+        .preset-detail {
+            padding: 80px 0;
+        }
+        
+        .preset-header {
+            display: flex;
+            gap: 64px;
+            margin-bottom: 64px;
+        }
+        
+        .preset-gallery {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .main-image {
+            grid-column: span 2;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .thumbnail {
+            height: 120px;
+            background: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .preset-info {
+            flex: 1;
+        }
+        
+        .preset-category {
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .preset-title {
+            font-size: 40px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .preset-creator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+        
+        .creator-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+        
+        .preset-price {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 24px 0;
+        }
+        
+        .preset-description {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .features-list {
+            margin-bottom: 32px;
+        }
+        
+        .features-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .features-list li::before {
+            content: "•";
+            color: var(--accent);
+        }
+        
+        .compatibility {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 32px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 48px 0;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .before-after {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+        
+        .comparison {
+            flex: 1;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .comparison img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .comparison-label {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+        
+        .reviews {
+            margin-bottom: 64px;
+        }
+        
+        .review-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+        
+        .reviewer-info h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .reviewer-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #ffd700;
+        }
+        
+        .review-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text);
+        }
+        
+        .copyright {
+            margin-top: 64px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 1024px) {
+            .preset-header {
+                flex-direction: column;
+                gap: 32px;
+            }
+            
+            .before-after {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .preset-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-image {
+                grid-column: span 1;
+                height: 300px;
+            }
+            
+            .preset-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">PresetMarket</a>
+                <div class="nav-links">
+                    <a href="#">Marketplace</a>
+                    <a href="#">Categories</a>
+                    <a href="#">Creators</a>
+                    <a href="#">About</a>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-outline">Login</button>
+                    <button class="btn btn-filled">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section class="preset-detail container">
+            <div class="preset-header">
+                <div class="preset-gallery">
+                    <div class="main-image">
+                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Nordic Lightroom Preset">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Nordic Lightroom Preset">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Nordic Lightroom Preset Example 1">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1429087969512-1e85aab2683d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Nordic Lightroom Preset Example 2">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Nordic Lightroom Preset Example 3">
+                    </div>
+                </div>
+                
+                <div class="preset-info">
+                    <span class="preset-category">Photography</span>
+                    <h1 class="preset-title">Nordic Lightroom Preset</h1>
+                    <div class="preset-creator">
+                        <div class="creator-avatar"></div>
+                        <span>by StudioNord</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <span>★★★★★</span>
+                        <span>4.8 (127 reviews)</span>
+                    </div>
+                    
+                    <div class="preset-price">$24.99</div>
+                    
+                    <p class="preset-description">
+                        A collection of 10 minimal, clean presets that bring out the natural beauty in your photos with cool tones and soft contrasts. Perfect for landscape, portrait, and lifestyle photography. These presets work especially well in natural light conditions and help create a cohesive aesthetic across your portfolio.
+                    </p>
+                    
+                    <ul class="features-list">
+                        <li>10 professionally designed Lightroom presets</li>
+                        <li>Compatible with Lightroom Classic CC, Lightroom CC, and Lightroom Mobile</li>
+                        <li>Works with both RAW and JPEG files</li>
+                        <li>Includes installation guide and tips</li>
+                        <li>Adjustable opacity for customized looks</li>
+                    </ul>
+                    
+                    <div class="compatibility">
+                        <span>Compatible with:</span>
+                        <span>Lightroom 4-10, Lightroom Classic, Lightroom CC, Lightroom Mobile</span>
+                    </div>
+                    
+                    <button class="btn btn-filled btn-large">Purchase Now</button>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">Before & After Examples</h2>
+            <div class="before-after">
+                <div class="comparison">
+                    <img src="https://images.unsplash.com/photo-1506260408121-e353d10b87c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Before">
+                    <div class="comparison-label">Before</div>
+                </div>
+                <div class="comparison">
+                    <img src="https://images.unsplash.com/photo-1506260408121-e353d10b87c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80&sat=-100" alt="After">
+                    <div class="comparison-label">After</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="reviews">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="reviewer-avatar"></div>
+                            <div class="reviewer-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>Professional Photographer</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★★</span>
+                            <span>5.0</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>These presets have completely transformed my workflow. The cool tones are exactly what I've been looking for to achieve that Scandinavian aesthetic. The presets work beautifully straight out of the box but are also highly customizable. My clients love the consistent look across all their photos.</p>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="reviewer-avatar"></div>
+                            <div class="reviewer-info">
+                                <h4>Michael Chen</h4>
+                                <p>Travel Blogger</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★☆</span>
+                            <span>4.5</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Great set of presets that work well for my travel photos. I especially love the "Nordic Air" preset for my landscape shots. The only reason I'm not giving 5 stars is that some presets require a bit more tweaking for indoor shots, but overall very happy with my purchase.</p>
+                    </div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="reviewer-avatar"></div>
+                            <div class="reviewer-info">
+                                <h4>Emma Rodriguez</h4>
+                                <p>Wedding Photographer</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <span>★★★★★</span>
+                            <span>5.0</span>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Absolutely in love with these presets! They've become my go-to for engagement sessions and bridal portraits. The skin tones come out looking natural yet enhanced, and the overall mood is exactly what my clients expect from my brand. Worth every penny!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Marketplace</h3>
+                    <ul>
+                        <li><a href="#">Browse Presets</a></li>
+                        <li><a href="#">Categories</a></li>
+                        <li><a href="#">Top Creators</a></li>
+                        <li><a href="#">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Creators</h3>
+                    <ul>
+                        <li><a href="#">Become a Creator</a></li>
+                        <li><a href="#">Creator Dashboard</a></li>
+                        <li><a href="#">Pricing Guidelines</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 PresetMarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

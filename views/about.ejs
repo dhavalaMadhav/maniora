@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .hero-about {
+            padding: 100px 0 60px;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-about h1 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .hero-about p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        
+        .about-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .about-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .about-card h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+        
+        .about-card p {
+            color: var(--text-secondary);
+        }
+        
+        .team-section {
+            padding: 60px 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid var(--accent);
+        }
+        
+        .team-member h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .team-member p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text);
+        }
+        
+        .copyright {
+            margin-top: 64px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-about h1 {
+                font-size: 40px;
+            }
+            
+            .hero-about p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index" class="logo">PresetMarket</a>
+                <div class="nav-links">
+                    <a href="index">Marketplace</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="creators.html">Creators</a>
+                    <a href="about.html" class="active">About</a>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    <button class="btn btn-filled" onclick="window.location.href='signup.html'">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero-about">
+        <div class="container">
+            <h1>Our Story</h1>
+            <p>Empowering creators worldwide with premium digital tools and resources since 2018</p>
+        </div>
+    </section>
+    
+    <section class="about-content">
+        <div class="container">
+            <div class="section-title">Why PresetMarket?</div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">💡</div>
+                    <h3>Our Mission</h3>
+                    <p>To democratize access to professional-grade creative tools by connecting talented preset creators with passionate users worldwide.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon">🚀</div>
+                    <h3>What We Do</h3>
+                    <p>We provide a curated marketplace for digital presets across photography, video, audio, design, and 3D creative workflows.</p>
+                </div>
+                <div class="about-card">
+                    <div class="about-icon">❤️</div>
+                    <h3>Our Values</h3>
+                    <p>Quality, creativity, and community are at the heart of everything we do. We believe in fair compensation for creators.</p>
+                </div>
+            </div>
+            
+            <div class="section-title">Meet The Team</div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Chen" class="team-avatar">
+                    <h3>Sarah Chen</h3>
+                    <p>Founder & CEO</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Johnson" class="team-avatar">
+                    <h3>Michael Johnson</h3>
+                    <p>Head of Product</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez" class="team-avatar">
+                    <h3>Emma Rodriguez</h3>
+                    <p>Creative Director</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="David Kim" class="team-avatar">
+                    <h3>David Kim</h3>
+                    <p>Lead Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Marketplace</h3>
+                    <ul>
+                        <li><a href="index">Browse Presets</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="creators.html">Top Creators</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Creators</h3>
+                    <ul>
+                        <li><a href="become-creator.html">Become a Creator</a></li>
+                        <li><a href="dashboard.html">Creator Dashboard</a></li>
+                        <li><a href="pricing.html">Pricing Guidelines</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 PresetMarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

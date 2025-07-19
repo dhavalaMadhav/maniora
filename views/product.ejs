@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+        
+        .back-btn:hover {
+            color: var(--text);
+        }
+        
+        .product-container {
+            display: flex;
+            gap: 48px;
+            padding: 64px 0;
+        }
+        
+        .product-gallery {
+            flex: 1;
+        }
+        
+        .main-image {
+            width: 100%;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            background: var(--secondary);
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--secondary);
+            object-fit: cover;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+        
+        .thumbnail:hover, .thumbnail.active {
+            opacity: 1;
+            border: 2px solid var(--accent);
+        }
+        
+        .product-details {
+            flex: 1;
+        }
+        
+        .product-category {
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .product-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .product-creator {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        
+        .product-creator a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .stars {
+            color: gold;
+        }
+        
+        .review-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .price-container {
+            margin-bottom: 32px;
+        }
+        
+        .current-price {
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+        
+        .discount {
+            color: #34c759;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+        
+        .product-description {
+            margin-bottom: 32px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .features-list {
+            margin-bottom: 32px;
+        }
+        
+        .features-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .features-list li::before {
+            content: "✓";
+            color: var(--accent);
+        }
+        
+        .compatibility {
+            margin-bottom: 32px;
+        }
+        
+        .compatibility h4 {
+            margin-bottom: 8px;
+        }
+        
+        .compatibility-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .compatibility-badge {
+            background: var(--secondary);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: #0077ed;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #2a2a2a;
+        }
+        
+        .delivery-info {
+            background: var(--secondary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+        
+        .delivery-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .delivery-icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .product-tabs {
+            margin-top: 64px;
+        }
+        
+        .tab-header {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 24px;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+        }
+        
+        .tab-btn.active {
+            color: var(--text);
+        }
+        
+        .tab-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .requirements-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .requirements-item {
+            background: var(--secondary);
+            padding: 16px;
+            border-radius: 8px;
+        }
+        
+        .requirements-item h5 {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .related-products {
+            margin-top: 80px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 80px;
+        }
+                
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text);
+        }
+        
+        .copyright {
+            margin-top: 64px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        
+        @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+                gap: 32px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .requirements-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="dashboard" class="logo">PresetMarket</a>
+                <a href="dashboard" class="back-btn">← Back to Marketplace</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="product-container">
+                <div class="product-gallery">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Nordic Lightroom Preset" class="main-image">
+                    <div class="thumbnail-container">
+                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thumbnail 1" class="thumbnail active" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thumbnail 2" class="thumbnail" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thumbnail 3" class="thumbnail" onclick="changeImage(this)">
+                        <img src="https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thumbnail 4" class="thumbnail" onclick="changeImage(this)">
+                    </div>
+                </div>
+                
+                <div class="product-details">
+                    <span class="product-category" id="productCategory">Photography</span>
+                    <h1 class="product-title" id="productTitle">Nordic Lightroom Preset Collection</h1>
+                    <div class="product-creator">
+                        by <a href="creator.html?id=studionord" id="productCreator">StudioNord</a>
+                    </div>
+                    
+                    <div class="rating">
+                        <div class="stars">
+                            ★★★★★
+                        </div>
+                        <span class="review-count" id="reviewCount">127 reviews</span>
+                    </div>
+                    
+                    <div class="price-container">
+                        <span class="current-price" id="currentPrice">$24.99</span>
+                        <span class="original-price" id="originalPrice">$34.99</span>
+                        <span class="discount" id="discount">30% OFF</span>
+                    </div>
+                    
+                    <p class="product-description" id="productDescription">
+                        Transform your photos with these beautifully crafted Lightroom presets inspired by the serene landscapes of Scandinavia. This collection includes 10 unique presets designed to bring out the natural beauty in your photos with cool tones, soft contrasts, and a minimalist aesthetic. Perfect for portrait, landscape, and street photography.
+                    </p>
+                    
+                    <ul class="features-list">
+                        <li>10 professionally designed Lightroom presets (DNG + XMP)</li>
+                        <li>Compatible with Lightroom CC, Classic, and Mobile</li>
+                        <li>One-click transformations with adjustable settings</li>
+                        <li>Works with both RAW and JPEG images</li>
+                        <li>Includes installation guide and tips</li>
+                        <li>Free updates for life</li>
+                    </ul>
+                    
+                    <div class="compatibility">
+                        <h4>Compatibility</h4>
+                        <div class="compatibility-badges">
+                            <span class="compatibility-badge">Lightroom CC</span>
+                            <span class="compatibility-badge">Lightroom Classic</span>
+                            <span class="compatibility-badge">Lightroom Mobile</span>
+                            <span class="compatibility-badge">Photoshop ACR</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="buyNowBtn" onclick="redirectTocheckout()">Buy Now</button>
+                        <button class="btn btn-secondary">
+                            <span>♥</span> Add to Wishlist
+                        </button>
+                    </div>
+                    
+                    <div class="delivery-info">
+                        <div class="delivery-row">
+                            <div class="delivery-icon">✉</div>
+                            <div>
+                                <strong>Instant delivery</strong> - Your files will be available for download immediately after purchase
+                            </div>
+                        </div>
+                        <div class="delivery-row">
+                            <div class="delivery-icon">↻</div>
+                            <div>
+                                <strong>30-day money back guarantee</strong> - If you're not satisfied, we'll refund your purchase
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-tabs">
+                <div class="tab-header">
+                    <button class="tab-btn active" onclick="openTab('details')">Details</button>
+                    <button class="tab-btn" onclick="openTab('requirements')">Requirements</button>
+                    <button class="tab-btn" onclick="openTab('reviews')">Reviews</button>
+                    <button class="tab-btn" onclick="openTab('license')">License</button>
+                </div>
+                
+                <div id="details" class="tab-content active">
+                    <h3>About This Preset Collection</h3>
+                    <p>The Nordic Lightroom Preset Collection is designed to bring a clean, minimalist aesthetic to your photography. Inspired by the muted tones and soft contrasts of Scandinavian landscapes, these presets work particularly well with natural light photography.</p>
+                    <p>Each preset has been carefully calibrated to work with a variety of lighting conditions and skin tones. The collection includes presets specifically optimized for portraits, landscapes, and indoor photography.</p>
+                    <p><strong>What's Included:</strong></p>
+                    <ul>
+                        <li>10 Lightroom presets (DNG + XMP formats)</li>
+                        <li>Step-by-step installation guide (PDF)</li>
+                        <li>Usage tips and recommendations</li>
+                        <li>Bonus: 5 Lightroom brush presets for local adjustments</li>
+                    </ul>
+                </div>
+                
+                <div id="requirements" class="tab-content">
+                    <div class="requirements-list">
+                        <div class="requirements-item">
+                            <h5>Software Requirements</h5>
+                            <p>Adobe Lightroom CC (v6.0 or later), Lightroom Classic (v8.0 or later), or Lightroom Mobile</p>
+                        </div>
+                        <div class="requirements-item">
+                            <h5>System Requirements</h5>
+                            <p>Windows 10/11 or macOS 10.15 (Catalina) or later</p>
+                        </div>
+                        <div class="requirements-item">
+                            <h5>File Formats</h5>
+                            <p>Works with RAW, JPEG, PNG, TIFF, and PSD files</p>
+                        </div>
+                        <div class="requirements-item">
+                            <h5>Language Support</h5>
+                            <p>Compatible with all language versions of Lightroom</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="reviews" class="tab-content">
+                    <h3>Customer Reviews</h3>
+                    <p>Average rating: <strong>4.8</strong> from 127 reviews</p>
+                    
+                    <div style="margin-top: 24px;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--secondary);"></div>
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 500;">Sarah J.</span>
+                                    <span style="color: var(--text-secondary); font-size: 14px;">2 days ago</span>
+                                </div>
+                                <div style="color: gold; margin: 4px 0;">★★★★★</div>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary);">These presets have completely transformed my portrait photography workflow. The skin tones come out perfectly every time, and my clients love the clean, professional look.</p>
+                    </div>
+                    
+                    <div style="margin-top: 24px;">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--secondary);"></div>
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 500;">Michael T.</span>
+                                    <span style="color: var(--text-secondary); font-size: 14px;">1 week ago</span>
+                                </div>
+                                <div style="color: gold; margin: 4px 0;">★★★★☆</div>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary);">Great presets overall, though I found I needed to adjust the exposure slightly for some of my landscape shots. The tones are beautiful though.</p>
+                    </div>
+                    
+                    <button class="btn btn-outline" style="margin-top: 24px;">Load More Reviews</button>
+                </div>
+                
+                <div id="license" class="tab-content">
+                    <h3>License Agreement</h3>
+                    <p>This license grants you, the purchaser, an ongoing, non-exclusive, worldwide license to use the digital preset product ("Presets") under the following terms:</p>
+                    
+                    <h4 style="margin-top: 16px;">You Can:</h4>
+                    <ul>
+                        <li>Use the Presets for personal or commercial projects</li>
+                        <li>Use the Presets for client work</li>
+                        <li>Modify the Presets to suit your needs</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 16px;">You Cannot:</h4>
+                    <ul>
+                        <li>Redistribute or resell the Presets as-is</li>
+                        <li>Include the Presets in a template or theme for sale</li>
+                        <li>Share the Presets with others (each user needs their own license)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 16px;">For full license details, please see our <a href="#" style="color: var(--accent);">Terms of Service</a>.</p>
+                </div>
+            </div>
+            
+                         
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Marketplace</h3>
+                    <ul>
+                        <li><a href="index">Browse Presets</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="creators.html">Top Creators</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 PresetMarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+// Product database - moved to top for better visibility
+const products = {
+    'photography': {
+        title: 'Nordic Lightroom Preset Collection',
+        creator: 'Madhav Dhavala' ,
+        price: 24.99,
+        originalPrice: 34.99,
+        discount: '30% OFF',
+        rating: 4.8,
+        reviewCount: 127,
+        description: 'Transform your photos with these beautifully crafted Lightroom presets inspired by the serene landscapes of Scandinavia. This collection includes 10 unique presets designed to bring out the natural beauty in your photos with cool tones, soft contrasts, and a minimalist aesthetic. Perfect for portrait, landscape, and street photography.',
+        features: [
+            '10 professionally designed Lightroom presets (DNG + XMP)',
+            'Compatible with Lightroom CC, Classic, and Mobile',
+            'One-click transformations with adjustable settings',
+            'Works with both RAW and JPEG images',
+            'Includes installation guide and tips',
+            'Free updates for life'
+        ],
+        compatibility: ['Lightroom CC', 'Lightroom Classic', 'Lightroom Mobile', 'Photoshop ACR'],
+        images: [
+            'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        ]
+    },
+    'video': {
+        title: 'Cinematic LUTs Pack',
+        creator: 'Madhav Dhavala',
+        price: 39.99,
+        originalPrice: 49.99,
+        discount: '20% OFF',
+        rating: 4.9,
+        reviewCount: 89,
+        description: '25 professional LUTs designed to give your footage a cinematic look across various lighting conditions. Perfect for filmmakers and content creators looking to achieve a consistent, professional grade.',
+        features: [
+            '25 professionally designed LUTs (cube format)',
+            'Compatible with Premiere Pro, DaVinci Resolve, Final Cut Pro',
+            'Works with both LOG and standard footage',
+            'Includes before/after examples',
+            'Detailed usage guide',
+            'Free updates for life'
+        ],
+        compatibility: ['Premiere Pro', 'DaVinci Resolve', 'Final Cut Pro', 'After Effects'],
+        images: [
+            'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1516542076529-1ea3854896f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        ]
+    },
+
+    'design': {
+        title: 'Neon Photoshop Actions',
+        creator: 'Madhav Dhavala' ,
+        price: 49.99,
+        originalPrice: 69.99,
+        discount: '30% OFF',
+        rating: 4.7,
+        reviewCount: 215,
+        description: 'A comprehensive UI kit with 150+ components for modern web and mobile applications. Includes buttons, cards, forms, navigation elements, and full page templates - all fully customizable and well-organized in Figma.',
+        features: [
+            '150+ customizable UI components',
+            '8 complete page templates',
+            'Light and dark mode variants',
+            'Auto-layout components',
+            'Design system documentation',
+            'Free lifetime updates'
+        ],
+        compatibility: ['Figma', 'Figma Community', 'Adobe XD (exported)'],
+        images: [
+            'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        ]
+    },
+    'audio': {
+        title: 'Analog Synth Presets',
+        creator: 'Madhav Dhavala' ,
+        price: 59.99,
+        originalPrice: 79.99,
+        discount: '25% OFF',
+        rating: 4.9,
+        reviewCount: 143,
+        description: '500+ high-quality cinematic sound effects for film, games, and multimedia projects. Includes impacts, whooshes, risers, drones, and transitions - all professionally mastered and ready for your productions.',
+        features: [
+            '500+ WAV files (24-bit/96kHz)',
+            'Organized by category',
+            'Royalty-free for all projects',
+            'Metadata and keywords included',
+            'Compatible with all DAWs',
+            'Free updates with new sounds'
+        ],
+        compatibility: ['Any DAW', 'Premiere Pro', 'Final Cut Pro', 'After Effects', 'Game Engines'],
+        images: [
+            'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        ]
+    },
+    '3d': {
+        title: 'Archviz 3D Materials',
+        creator: 'Madhav Dhavala' ,
+        price: 79.99,
+        originalPrice: 99.99,
+        discount: '20% OFF',
+        rating: 4.8,
+        reviewCount: 92,
+        description: '500+ low poly 3D models for games, animations, and architectural visualization. Includes characters, vehicles, buildings, and nature elements - all optimized for real-time rendering with clean topology.',
+        features: [
+            '500+ low poly models (FBX, OBJ, Blend)',
+            '4K PBR textures included',
+            'Modular building pieces',
+            'Animated characters',
+            'LOD versions available',
+            'Royalty-free for commercial use'
+        ],
+        compatibility: ['Blender', 'Unity', 'Unreal Engine', 'Maya', '3DS Max'],
+        images: [
+            'https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+            'https://images.unsplash.com/photo-1639762681297-0681d0e8e1d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1639762681495-0786271dc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+            'https://images.unsplash.com/photo-1639762681495-0786271dc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+        ]
+    },
+
+};
+
+// DOM Elements - cached for better performance
+const elements = {
+    mainImage: document.getElementById('mainImage'),
+    productCategory: document.getElementById('productCategory'),
+    productTitle: document.getElementById('productTitle'),
+    productcreator:  document.getElementById('productCreator'),
+    currentPrice: document.getElementById('currentPrice'),
+    originalPrice: document.getElementById('originalPrice'),
+    discount: document.getElementById('discount'),
+    reviewCount: document.getElementById('reviewCount'),
+    productDescription: document.getElementById('productDescription'),
+    featuresList: document.querySelector('.features-list'),
+    compatibilityBadges: document.querySelector('.compatibility-badges'),
+    thumbnailContainer: document.querySelector('.thumbnail-container'),
+    buyNowBtn: document.getElementById('buyNowBtn'),
+    relatedProductsGrid: document.querySelector('.products-grid')
+};
+
+// Utility functions
+const utils = {
+    // Format price with 2 decimal places
+    formatPrice: (price) => parseFloat(price).toFixed(2),
+    
+    // Generate star rating HTML
+    generateStarRating: (rating) => {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+        
+        return '★'.repeat(fullStars) + 
+               (hasHalfStar ? '½' : '') + 
+               '☆'.repeat(emptyStars);
+    },
+    
+    // Show loading state
+    showLoading: () => {
+        document.body.classList.add('loading');
+    },
+    
+    // Hide loading state
+    hideLoading: () => {
+        document.body.classList.remove('loading');
+    },
+    
+    // Redirect to product page
+    redirectToProduct: (productId, category) => {
+        window.location.href = `product.html?id=${productId}&category=${category}`;
+    },
+    redirectToCheckout: () => {
+        console.log( `checkout?id=${productId}&category=${category}`);
+        // window.location.href = `checkout?id=${productId}&category=${category}`;
+    }
+};
+
+// Product functions
+const productFunctions = {
+    // Change main image when thumbnail is clicked
+    changeImage: (element) => {
+        elements.mainImage.src = element.src;
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.classList.remove('active');
+        });
+        element.classList.add('active');
+        
+        // Add smooth transition effect
+        elements.mainImage.style.opacity = 0;
+        setTimeout(() => {
+            elements.mainImage.style.opacity = 1;
+        }, 100);
+    },
+    
+    // Tab functionality
+    openTab: (tabId, event) => {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Remove active class from all tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show the selected tab content
+        document.getElementById(tabId).classList.add('active');
+        
+        // Add active class to clicked button
+        if (event && event.currentTarget) {
+            event.currentTarget.classList.add('active');
+        }
+    },
+    
+    // Initialize product details
+    initProductDetails: () => {
+        utils.showLoading();
+        
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+        const category = params.get('category');
+        
+        // if (!productId || !products[productId]) {
+        //     // Product not found, redirect to homepage after delay
+        //     setTimeout(() => {
+        //         window.location.href = 'index';
+        //     }, 1500);
+        //     return;
+        // }
+        
+        const product = products[category];
+        console.log(product);
+        
+        // Update page title
+        document.title = `${productId} | PresetMarket`;
+        
+        // Update product info
+        elements.productCategory.textContent = category;
+        elements.productTitle.textContent = productId;
+        // elements.productCreator.textContent = "Madhav Dhavala";
+        // elements.productCreator.href = `creator?id=${product.creator.toLowerCase().replace(/\s+/g, '-')}`;
+        // Update pricing
+        elements.currentPrice.textContent = `$${utils.formatPrice(product.price)}`;
+        elements.originalPrice.textContent = `$${utils.formatPrice(product.originalPrice)}`;
+        elements.discount.textContent = product.discount;
+        
+        // Update rating
+        document.querySelector('.stars').innerHTML = utils.generateStarRating(product.rating);
+        elements.reviewCount.textContent = `${product.reviewCount} reviews`;
+        
+        // Update description and features
+        elements.productDescription.textContent = product.description;
+        elements.featuresList.innerHTML = product.features.map(feature => 
+            `<li><span>${feature}</span></li>`
+        ).join('');
+        
+        // Update compatibility badges
+        elements.compatibilityBadges.innerHTML = product.compatibility.map(item => 
+            `<span class="compatibility-badge">${item}</span>`
+        ).join('');
+        
+        // Update images
+        if (product.images.length > 0) {
+            elements.mainImage.src = product.images[0];
+            elements.thumbnailContainer.innerHTML = product.images.map((image, index) => 
+                `<img src="${image}" alt="Thumbnail ${index + 1}" 
+                      class="thumbnail${index === 0 ? ' active' : ''}" 
+                      onclick="productFunctions.changeImage(this)">`
+            ).join('');
+        }
+        
+        // Set up related products
+        productFunctions.setupRelatedProducts(productId, category);
+        
+        utils.hideLoading();
+        
+        return { productId, category, product };
+    },
+    
+    // Setup related products section
+    setupRelatedProducts: (currentProductId, currentCategory) => {
+        const relatedProducts = Object.entries(products)
+            .filter(([id, p]) => p.category === currentCategory && id !== currentProductId)
+            .slice(0, 2);
+        
+        elements.relatedProductsGrid.innerHTML = relatedProducts.map(([id, p]) => `
+            <div class="preset-card" onclick="utils.redirectToProduct('${id}', '${p.category}')">
+                <div class="preset-image">
+                    <img src="${p.images[0]}" alt="${p.title}" loading="lazy">
+                </div>
+                <div class="preset-info">
+                    <div class="preset-meta">
+                        <span>${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</span>
+                        <span>by ${p.creator}</span>
+                    </div>
+                    <h3 class="preset-title">${p.title}</h3>
+                    <div class="preset-footer">
+                        <span class="preset-price">$${utils.formatPrice(p.price)}</span>
+                        <div class="rating">
+                            <span>★</span>
+                            <span>${p.rating}</span>
+                            <span>(${p.reviewCount})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+};
+
+// Event Listeners
+elements.buyNowBtn.addEventListener('click', () => {
+    // In a real implementation, this would redirect to checkout
+    alert('Redirecting to checkout...');
+    const productId = new URLSearchParams(window.location.search).get('id');
+    const category = new URLSearchParams(window.location.search).get('category');
+    window.location.href = `checkout?id=${productId}&category=${category}`;
+});
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize product details
+    productFunctions.initProductDetails();
+    
+    // Open first tab by default if none is active
+    if (!document.querySelector('.tab-btn.active')) {
+        productFunctions.openTab('details');
+    }
+});
+
+// Expose functions to global scope for HTML onclick handlers
+window.changeImage = productFunctions.changeImage;
+window.openTab = productFunctions.openTab;
+window.redirectToProduct = utils.redirectToProduct;
+    </script>
+</body>
+</html>

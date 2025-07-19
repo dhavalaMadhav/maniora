@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Your Purchase | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+                header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+        
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .profile-btn:hover {
+            color: var(--accent);
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--secondary);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            z-index: 101;
+            display: none;
+        }
+        
+        .profile-dropdown.active {
+            display: block;
+        }
+        
+        .profile-dropdown a {
+            display: block;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .profile-dropdown a:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .profile-dropdown .divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 8px 0;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #30b34e;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #e68600;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e6352a;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .download-content {
+            text-align: center;
+            padding: 64px 0;
+        }
+        
+        .prototype-notice {
+            font-size: 24px;
+            color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.1);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 48px;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            background: var(--secondary);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: left;
+        }
+        
+        .product-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .product-details {
+            flex: 1;
+        }
+        
+        .product-title {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .product-creator {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        .download-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 16px;
+        }
+        
+        .download-btn:hover {
+            background: #0077ed;
+            transform: translateY(-2px);
+        }
+        
+        .back-btn {
+            background: var(--secondary);
+            color: var(--text);
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: #2a2a2a;
+        }
+        
+        .download-instructions {
+            margin-top: 48px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 80px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="creatorDashboard" class="logo">PresetMarket</a>
+                <div class="nav-links">
+                </div>
+                <div class="user-actions">
+                    <button class="profile-btn" id="profileBtn">
+                        <span class="name">Admin User</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="profile.html">Profile Settings</a>
+                        <a href="settings.html">Admin Settings</a>
+                        <div class="divider"></div>
+                        <a href="logout" id="logoutBtn">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="download-content">
+                <div class="prototype-notice">
+                    This is a prototype with no payment gateway. Download for free!
+                </div>
+                
+                <div class="product-info">
+                    <img id="productImage" src="" alt="Product" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-title" id="productTitle">Product Title</h2>
+                        <div class="product-creator" id="productCreator">by Creator</div>
+                        <div id="productPrice">$0.00</div>
+                    </div>
+                </div>
+                
+                <button class="download-btn" id="downloadBtn">Download Now</button>
+                
+                <button class="back-btn" onclick="window.location.href='/dashboard'">
+                    ← Back to Dashboard
+                </button>
+                
+                <div class="download-instructions" id="downloadInstructions">
+                    After downloading, import the .XMP file into Lightroom's Develop module.
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            © 2023 PresetMarket. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+
+        const username = "<%=username%>";
+        const name = document.querySelector('.name');
+        name.innerText=`hello! ${username}`;
+
+       // Profile dropdown functionality
+const profileBtn = document.getElementById('profileBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+
+profileBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    profileDropdown.classList.toggle('active');
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function() {
+    profileDropdown.classList.remove('active');
+});
+
+// Product database with preset settings
+const products = {
+    // Original products (photo presets)
+    'nordic-lightroom-preset': {
+        title: 'Nordic Lightroom Preset Collection',
+        creator: 'Madhav Dhavala',
+        price: 24.99,
+        image: 'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            Exposure: "+0.50",
+            Contrast: "+10",
+            Highlights: "-20",
+            Shadows: "+15",
+            Whites: "0",
+            Blacks: "-5",
+            Clarity: "+10",
+            Vibrance: "+15",
+            Saturation: "0",
+            ToneCurveName: "Medium Contrast",
+            ToneCurve: "0, 0, 32, 22, 64, 64, 128, 118, 192, 192, 255, 255"
+        },
+        type: 'photo'
+    },
+    'cinematic-luts-pack': {
+        title: 'Cinematic LUTs Pack',
+        creator: 'Madhav Dhavala',
+        price: 39.99,
+        image: 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            Exposure: "+0.25",
+            Contrast: "+15",
+            Highlights: "-30",
+            Shadows: "+20",
+            Whites: "+5",
+            Blacks: "-10",
+            Clarity: "+5",
+            Vibrance: "+10",
+            Saturation: "-5",
+            ToneCurveName: "Strong Contrast",
+            ToneCurve: "0, 0, 32, 15, 64, 50, 128, 128, 192, 210, 255, 255"
+        },
+        type: 'photo'
+    },
+    'portrait-lightroom-presets': {
+        title: 'Portrait Lightroom Presets',
+        creator: 'Madhav Dhavala',
+        price: 27.99,
+        image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            Exposure: "+0.30",
+            Contrast: "+5",
+            Highlights: "-15",
+            Shadows: "+25",
+            Whites: "0",
+            Blacks: "-3",
+            Clarity: "+8",
+            Vibrance: "+12",
+            Saturation: "-3",
+            ToneCurveName: "Soft Contrast",
+            ToneCurve: "0, 0, 32, 28, 64, 70, 128, 128, 192, 185, 255, 255",
+            Sharpness: "40",
+            LuminanceNoiseReduction: "30"
+        },
+        type: 'photo'
+    },
+    
+    // New audio products
+    'analog-synth-presets': {
+        title: 'Analog Synth Presets',
+        creator: 'Madhav Dhavala',
+        price: 29.99,
+        image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            BPM: "85-95",
+            Key: "Various",
+            Format: "WAV 24-bit",
+            Genre: "Lofi Hip Hop",
+            Samples: "120",
+            Loops: "30",
+            OneShots: "90"
+        },
+        type: 'audio'
+    },
+    // New design products
+    'neon-photoshop-actions': {
+        title: 'Neon Photoshop Actions',
+        creator: 'Madhav Dhavala',
+        price: 19.99,
+        image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            Components: "150+",
+            Screens: "10",
+            Icons: "100+",
+            Fonts: "3 premium",
+            Format: ".fig",
+            Version: "Figma 3.0+"
+        },
+        type: 'design'
+    },
+    
+    // New 3D products
+    'archviz-3d-materials': {
+        title: 'Archviz 3D Materials',
+        creator: 'Madhav Dhavala',
+        price: 49.99,
+        image: 'https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+        presetSettings: {
+            Models: "30",
+            Format: "FBX, OBJ",
+            Textures: "Included",
+            PolyCount: "500-2000",
+            Rigged: "No",
+            Animated: "No",
+            Software: "Blender, Maya, Unity"
+        },
+        type: '3d'
+    }
+};
+
+// Function to generate file content based on product type
+function generateFileContent(product) {
+    if (product.type === 'photo') {
+        return generateXMP(product.title, product.presetSettings);
+    } else if (product.type === 'audio') {
+        return generateReadme(product.title, product.presetSettings);
+    } else if (product.type === 'design') {
+        return generateReadme(product.title, product.presetSettings);
+    } else if (product.type === '3d') {
+        return generateReadme(product.title, product.presetSettings);
+    }
+    return "";
+}
+
+// Function to generate XMP content for photo presets
+function generateXMP(presetName, settings) {
+    return `<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c148 79.164036, 2019/08/13-01:06:57">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+            xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
+            crs:Version="13.1"
+            crs:ProcessVersion="11.0"
+            crs:Name="${presetName}"
+            ${Object.entries(settings)
+                .map(([key, value]) => `crs:${key}="${value}"`)
+                .join("\n            ")}>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>`;
+}
+
+// Function to generate README content for other product types
+function generateReadme(productName, settings) {
+    return `# ${productName}\n\n` +
+           `Thank you for your purchase!\n\n` +
+           `## Product Details\n\n` +
+           Object.entries(settings)
+               .map(([key, value]) => `- **${key}**: ${value}`)
+               .join("\n") +
+           `\n\n## Installation Instructions\n\n` +
+           getInstallationInstructions(productName) +
+           `\n\nFor support, please contact support@presetmarket.com`;
+}
+
+function getInstallationInstructions(productName) {
+    if (productName.includes('Sample Pack') || productName.includes('Synth Presets')) {
+        return `1. Unzip the downloaded package\n` +
+               `2. For samples: Drag and drop into your DAW's sample library\n` +
+               `3. For presets: Place in your synth's preset folder\n` +
+               `4. Refresh your plugin to see the new presets`;
+    } else if (productName.includes('UI Kit') || productName.includes('Brush Pack')) {
+        return `1. For Figma files: Open in Figma and duplicate to your drafts\n` +
+               `2. For Procreate brushes: Airdrop to iPad and import through Procreate\n` +
+               `3. Organize in your preferred categories`;
+    } else if (productName.includes('3D Models') || productName.includes('Material Pack')) {
+        return `1. For FBX/OBJ: Import directly into your 3D software\n` +
+               `2. For Blender files: Append or link the assets to your project\n` +
+               `3. Adjust materials as needed for your scene`;
+    }
+    return "Refer to the documentation included in the package for specific installation instructions.";
+}
+
+// Function to handle download
+async function downloadProduct(product) {
+    console.log("hello")
+    // Get productId from URL params
+    const param = new URLSearchParams(window.location.search);
+    const productid = param.get('id');
+const response = await fetch('/getFile', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ productid })
+});
+ const resData= await response.json();
+    // Generate appropriate content based on product type
+    const content = generateFileContent(product);
+    
+    // Determine file extension
+    let extension = ".zip";
+    // if (product.type === 'photo') extension = ".xmp";
+    // if (product.type === 'design' && product.title.includes('Figma')) extension = ".fig";
+    // if (product.type === 'design' && product.title.includes('Procreate')) extension = ".brushset";
+    // if (product.type === '3d' && product.title.includes('Blender')) extension = ".blend";
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+    // Create blob and download
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = resData[0].presetFile;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 100);
+    
+    // Change button text temporarily
+    const btn = document.getElementById('downloadBtn');
+    btn.textContent = 'Downloading...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        btn.textContent = 'Download Complete!';
+        setTimeout(() => {
+            btn.textContent = 'Download Now';
+            btn.disabled = false;
+        }, 2000);
+    }, 1000);
+}
+
+// Main function to initialize the page with product data
+function initializePage() {
+    // Get product ID from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+    
+    // Get the product from our database
+    const defaultProduct = Object.values(products)[0]; // Fallback product
+    const product = products[productId] || defaultProduct;
+    
+    // Update the page with product information
+    document.getElementById('productTitle').textContent = productId;
+    document.getElementById('productCreator').textContent = `by ${product.creator}`;
+    document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
+    document.getElementById('productImage').src = product.image;
+    
+    // Update download instructions based on product type
+    const instructions = document.getElementById('downloadInstructions');
+    if (product.type === 'photo') {
+        instructions.textContent = "After downloading, import the .XMP file into Lightroom's Develop module.";
+    } else if (product.type === 'audio') {
+        instructions.textContent = "After downloading, unzip the package and follow the included README for installation.";
+    } else if (product.type === 'design') {
+        instructions.textContent = "After downloading, follow the instructions for your specific design software.";
+    } else if (product.type === '3d') {
+        instructions.textContent = "After downloading, import the files into your 3D software as needed.";
+    }
+    
+    // Set up download button
+    document.getElementById('downloadBtn').addEventListener('click', () => downloadProduct(product));
+    
+    // If no product ID was found in URL, show a warning
+    if (!productId) {
+        console.warn('No product ID found in URL parameters. Using default product.');
+    }
+}
+
+// Initialize the page when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

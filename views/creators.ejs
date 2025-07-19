@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Creators | PresetMarket</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #0071e3;
+            --text: #f5f5f7;
+            --text-secondary: #86868b;
+            --card-bg: #161617;
+            --gap: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 113, 227, 0.1);
+        }
+        
+        .btn-filled {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-filled:hover {
+            background: #0077ed;
+        }
+        
+        .hero-creators {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        
+        .hero-creators h1 {
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-creators p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .creators-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .creators-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 24px;
+            background: var(--secondary);
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .creator-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .creator-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+        }
+        
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid var(--accent);
+        }
+        
+        .creator-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .creator-specialty {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        
+        .creator-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .btn-view {
+            display: inline-block;
+            padding: 10px 24px;
+            background: var(--accent);
+            color: white;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-view:hover {
+            background: #0066cc;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            color: var(--text);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn.active, .page-btn:hover {
+            background: var(--accent);
+        }
+        
+        footer {
+            padding: 64px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--text);
+        }
+        
+        .copyright {
+            margin-top: 64px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-creators h1 {
+                font-size: 40px;
+            }
+            
+            .hero-creators p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .creators-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index" class="logo">PresetMarket</a>
+                <div class="nav-links">
+                    <a href="index">Marketplace</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="creators.html" class="active">Creators</a>
+                    <a href="about.html">About</a>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-outline" onclick="window.location.href='login.html'">Login</button>
+                    <button class="btn btn-filled" onclick="window.location.href='signup.html'">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero-creators">
+        <div class="container">
+            <h1>Top Creators</h1>
+            <p>Discover and connect with the most talented preset creators in the industry</p>
+        </div>
+    </section>
+    
+    <section class="creators-section">
+        <div class="container">
+            <div class="section-title">Featured Creators</div>
+            
+            <div class="creators-filter">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Photography</button>
+                <button class="filter-btn">Video</button>
+                <button class="filter-btn">Audio</button>
+                <button class="filter-btn">Design</button>
+                <button class="filter-btn">3D</button>
+            </div>
+            
+            <div class="creators-grid">
+                <!-- Creator 1 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson" class="creator-avatar">
+                    <h3 class="creator-name">Sarah Johnson</h3>
+                    <p class="creator-specialty">Photography Presets</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">1.2k</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24.7k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-sarah-johnson.html" class="btn-view">View Profile</a>
+                </div>
+                
+                <!-- Creator 2 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="creator-avatar">
+                    <h3 class="creator-name">Michael Chen</h3>
+                    <p class="creator-specialty">Cinematic LUTs</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">856</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">18.3k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-michael-chen.html" class="btn-view">View Profile</a>
+                </div>
+                
+                <!-- Creator 3 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emma Rodriguez" class="creator-avatar">
+                    <h3 class="creator-name">Emma Rodriguez</h3>
+                    <p class="creator-specialty">Synth Presets</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">2.1k</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">32.5k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-emma-rodriguez.html" class="btn-view">View Profile</a>
+                </div>
+                
+                <!-- Creator 4 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="David Kim" class="creator-avatar">
+                    <h3 class="creator-name">David Kim</h3>
+                    <p class="creator-specialty">3D Materials</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">498</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">14.2k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-david-kim.html" class="btn-view">View Profile</a>
+                </div>
+                
+                <!-- Creator 5 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Lisa Wong" class="creator-avatar">
+                    <h3 class="creator-name">Lisa Wong</h3>
+                    <p class="creator-specialty">Photoshop Actions</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">723</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">19.8k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-lisa-wong.html" class="btn-view">View Profile</a>
+                </div>
+                
+                <!-- Creator 6 -->
+                <div class="creator-card">
+                    <img src="https://randomuser.me/api/portraits/men/88.jpg" alt="James Wilson" class="creator-avatar">
+                    <h3 class="creator-name">James Wilson</h3>
+                    <p class="creator-specialty">DAW Presets</p>
+                    <div class="creator-stats">
+                        <div class="stat">
+                            <div class="stat-number">1.5k</div>
+                            <div class="stat-label">Presets</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">27.4k</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                    </div>
+                    <a href="creator-james-wilson.html" class="btn-view">View Profile</a>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button class="page-btn">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Marketplace</h3>
+                    <ul>
+                        <li><a href="index">Browse Presets</a></li>
+                        <li><a href="categories.html">Categories</a></li>
+                        <li><a href="creators.html">Top Creators</a></li>
+                        <li><a href="new-releases.html">New Releases</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Creators</h3>
+                    <ul>
+                        <li><a href="become-creator.html">Become a Creator</a></li>
+                        <li><a href="dashboard.html">Creator Dashboard</a></li>
+                        <li><a href="pricing.html">Pricing Guidelines</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="press.html">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 PresetMarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Simple filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // In a real implementation, you would filter the creators here
+                // This is just a UI demonstration
+            });
+        });
+        
+        // Pagination buttons
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // In a real implementation, you would load the corresponding page here
+            });
+        });
+    </script>
+</body>
+</html>
