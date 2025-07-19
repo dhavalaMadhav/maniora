@@ -347,7 +347,7 @@
                     <div class="product-details">
                         <h2 class="product-title" id="productTitle">Product Title</h2>
                         <div class="product-creator" id="productCreator">by Creator</div>
-                        <div id="productPrice">$0.00</div>
+                        <div id="productPrice">Free</div>
                     </div>
                 </div>
                 
@@ -640,7 +640,7 @@ function initializePage() {
     // Update the page with product information
     document.getElementById('productTitle').textContent = productId;
     document.getElementById('productCreator').textContent = `by ${product.creator}`;
-    document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
+    // document.getElementById('productPrice').textContent = `Free`;
     document.getElementById('productImage').src = product.image;
     
     // Update download instructions based on product type
