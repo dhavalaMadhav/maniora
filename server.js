@@ -9,12 +9,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const app = express();
 const http = require("http").Server(app);
-const io = require("socket.io")(http, {
-    // cors: {
-    //   origin: "*",
-    //   methods: ["GET", "POST"]
-    // }
-});
 // async  function wattah(){
 //         const hash =  await bcrypt.hash("admin", 10);
 //         console.log(hash)
