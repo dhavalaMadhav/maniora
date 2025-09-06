@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>PresetMarket | Digital Preset Marketplace</title>
     <style>
         :root {
@@ -13,72 +13,79 @@
             --text-secondary: #86868b;
             --card-bg: #161617;
             --gap: 24px;
+            --transition: all 0.3s ease;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        
+
         body {
             background-color: var(--primary);
             color: var(--text);
             line-height: 1.5;
+            overflow-x: hidden;
         }
-        
+
         .container {
             max-width: 1440px;
             margin: 0 auto;
             padding: 0 32px;
         }
-        
+
         header {
             padding: 24px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
             top: 0;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px);
             z-index: 100;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: nowrap;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: 600;
             color: var(--text);
             text-decoration: none;
+            white-space: nowrap;
+            z-index: 101;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 32px;
         }
-        
+
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
-        
-        .nav-links a:hover, .nav-links a.active {
+
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--text);
         }
-        
+
         .user-actions {
             display: flex;
             gap: 16px;
             position: relative;
         }
-        
+
         .profile-btn {
             display: flex;
             align-items: center;
@@ -89,12 +96,13 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
         }
-        
+
         .profile-btn:hover {
             color: var(--accent);
         }
-        
+
         .profile-dropdown {
             position: absolute;
             top: 100%;
@@ -103,70 +111,69 @@
             border-radius: 8px;
             padding: 8px 0;
             min-width: 180px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             z-index: 101;
             display: none;
         }
-        
+
         .profile-dropdown.active {
             display: block;
         }
-        
+
         .profile-dropdown a {
             display: block;
             padding: 8px 16px;
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
-        
+
         .profile-dropdown a:hover {
             color: var(--text);
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
         }
-        
+
         .profile-dropdown .divider {
             height: 1px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             margin: 8px 0;
         }
-        
-        /* Rest of your existing styles remain the same */
+
         .btn {
             padding: 8px 16px;
             border-radius: 24px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             border: none;
         }
-        
+
         .btn-outline {
             background: transparent;
             color: var(--accent);
             border: 1px solid var(--accent);
         }
-        
+
         .btn-outline:hover {
             background: rgba(0, 113, 227, 0.1);
         }
-        
+
         .btn-filled {
             background: var(--accent);
             color: white;
         }
-        
+
         .btn-filled:hover {
             background: #0077ed;
         }
-        
+
         .hero {
             padding: 80px 0;
             text-align: center;
         }
-        
+
         .hero h1 {
             font-size: 56px;
             font-weight: 600;
@@ -175,20 +182,20 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .hero p {
             font-size: 24px;
             color: var(--text-secondary);
             max-width: 700px;
             margin: 0 auto 40px;
         }
-        
+
         .search-bar {
             max-width: 600px;
             margin: 0 auto 64px;
             position: relative;
         }
-        
+
         .search-bar input {
             width: 100%;
             padding: 16px 24px;
@@ -198,8 +205,13 @@
             color: var(--text);
             font-size: 16px;
             padding-left: 52px;
+            transition: var(--transition);
         }
-        
+
+        .search-bar input:focus {
+            outline: 1px solid var(--accent);
+        }
+
         .search-bar::before {
             content: "⌕";
             position: absolute;
@@ -208,16 +220,25 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
             font-size: 18px;
+            z-index: 1;
         }
-        
+
         .filters {
             display: flex;
             justify-content: center;
             gap: 16px;
             margin-bottom: 48px;
             flex-wrap: wrap;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
         .filter-btn {
             padding: 8px 16px;
             border-radius: 24px;
@@ -226,65 +247,82 @@
             border: none;
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.3s;
+            transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
-        
-        .filter-btn.active, .filter-btn:hover {
+
+        .filter-btn.active,
+        .filter-btn:hover {
             background: var(--accent);
             color: white;
         }
-        
+
         .preset-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: var(--gap);
             margin-bottom: 80px;
         }
-        
+
         .preset-card {
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: var(--transition);
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-        
+
         .preset-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
         }
-        
+
         .preset-image {
             height: 200px;
             background: var(--secondary);
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
-        
+
         .preset-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition);
         }
-        
+
+        .preset-card:hover .preset-image img {
+            transform: scale(1.05);
+        }
+
         .preset-info {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
-        
+
         .preset-meta {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             margin-bottom: 12px;
             color: var(--text-secondary);
             font-size: 14px;
+            text-transform: capitalize;
         }
-        
+
         .preset-title {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 8px;
+            color: var(--text);
         }
-        
+
         .preset-description {
             color: var(--text-secondary);
             margin-bottom: 16px;
@@ -293,92 +331,104 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            flex-grow: 1;
         }
-        
+
         .preset-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
         }
-        
+
         .preset-price {
             font-size: 18px;
             font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
         }
-        
+
         .rating {
             display: flex;
             align-items: center;
             gap: 4px;
             color: var(--text-secondary);
+            font-size: 14px;
         }
-        
+
+        .rating span:first-child {
+            color: #f5c518;
+            font-size: 18px;
+        }
+
         footer {
             padding: 64px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
         }
-        
+
         .footer-column h3 {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 16px;
             color: var(--text);
         }
-        
+
         .footer-column ul {
             list-style: none;
         }
-        
+
         .footer-column ul li {
             margin-bottom: 12px;
         }
-        
+
         .footer-column ul li a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
-        
+
         .footer-column ul li a:hover {
             color: var(--text);
         }
-        
+
         .copyright {
             margin-top: 64px;
             text-align: center;
             color: var(--text-secondary);
             font-size: 14px;
         }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 40px;
-            }
-            
-            .hero p {
-                font-size: 18px;
-            }
-            
-            .preset-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 101;
         }
 
-        /* Search results styling */
+        /* Search results */
         .search-results {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
             background: var(--secondary);
-            border-radius: 8px;
+            border-radius: 12px;
+            margin-top: 8px;
+            padding: 16px;
+            z-index: 99;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: none;
         }
 
         .search-results.active {
@@ -386,127 +436,240 @@
         }
 
         .search-results h3 {
-            margin-bottom: 16px;
+            font-size: 16px;
+            margin-bottom: 12px;
             color: var(--text);
         }
 
-        .no-results {
-            color: var(--text-secondary);
+        .search-results .no-results {
             text-align: center;
             padding: 20px;
+            color: var(--text-secondary);
         }
 
-
-
-        /* Typing animation on the title */
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            overflow: hidden; /* Ensures the caret doesn't overflow */
-            white-space: nowrap;
-            border-right: 3px solid var(--accent);
-            width: 0;
-            margin-left: auto;
-            margin-right: auto;
-            animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 28ch; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent) }
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .preset-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
         }
 
+        @media (max-width: 1024px) {
+            .preset-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .hero p {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                margin-bottom: 30px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--secondary);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: var(--transition);
+                z-index: 100;
+                padding: 80px 20px 40px;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                font-size: 18px;
+                padding: 12px 0;
+            }
+            
+            .search-bar {
+                margin-bottom: 40px;
+            }
+            
+            .filters {
+                justify-content: flex-start;
+                padding-bottom: 12px;
+            }
+            
+            .preset-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            footer {
+                padding: 40px 0;
+            }
+            
+            .copyright {
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 16px 0;
+            }
+
+            .user-actions {
+                gap: 8px;
+            }
+
+            .profile-btn {
+                font-size: 12px;
+                gap: 4px;
+            }
+
+            .filter-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .search-bar input {
+                font-size: 14px;
+                padding: 12px 20px;
+                padding-left: 48px;
+            }
+
+            .preset-price {
+                font-size: 16px;
+            }
+
+            .preset-title {
+                font-size: 18px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .nav-links {
+                width: 85%;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="dashboard" class="logo">PresetMarket</a>
-                <div class="nav-links">
-                    <a href="" class="active">Marketplace</a>
+                <a href="dashboard" class="logo" aria-label="PresetMarket Dashboard">PresetMarket</a>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">☰</button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="" class="active" aria-current="page">Marketplace</a>
+                    <a href="categories.html">Categories</a>
+                    <a href="creators.html">Creators</a>
+                    <a href="pricing.html">Pricing</a>
                 </div>
+                
                 <div class="user-actions">
-                    <button class="profile-btn" id="profileBtn">
-                        <span class="name" >Hello, User!</span>
-                        <span>▼</span>
+                    <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown" aria-label="User profile menu">
+                        <span class="name">Hello, User!</span>
+                        <span aria-hidden="true">▼</span>
                     </button>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <a href="profile.html">Profile Info</a>
-                        <a href="settings.html">Settings</a>
+                    <div class="profile-dropdown" id="profileDropdown" role="menu" aria-label="User profile dropdown menu">
+                        <a href="profile.html" role="menuitem" tabindex="-1">Profile Info</a>
+                        <a href="settings.html" role="menuitem" tabindex="-1">Settings</a>
                         <div class="divider"></div>
-                        <a href="/logout" id="logoutBtn">Logout</a>
+                        <a href="/logout" id="logoutBtn" role="menuitem" tabindex="-1">Logout</a>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
-    
+
     <main>
-        <section class="hero">
+        <section class="hero" aria-label="Hero Section">
             <div class="container">
                 <h1>Elevate Your Creative Workflow</h1>
                 <p>Discover and purchase premium digital presets from top creators worldwide</p>
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Search presets, creators, categories..." onkeyup="searchPresets()">
+                    <input type="text" id="searchInput" placeholder="Search presets, creators, categories..." aria-label="Search presets, creators, and categories" />
                 </div>
-                <div id="searchResults" class="search-results">
-                    <!-- Search results will be displayed here -->
-                </div>
+                <div id="searchResults" class="search-results" aria-live="polite" aria-atomic="true"></div>
             </div>
         </section>
-        
-        <section class="container">
-            <div class="filters">
-                <button class="filter-btn active">All</button>
-                <button class="filter-btn">Photography</button>
-                <button class="filter-btn">Audio</button>
-                <button class="filter-btn">Video</button>
-                <button class="filter-btn">Design</button>
-                <button class="filter-btn">3D</button>
-                <button class="filter-btn">Popular</button>
-                <button class="filter-btn">New</button>
+
+        <section class="container" aria-label="Preset Filters and Gallery">
+            <div class="filters" role="list" aria-label="Preset category filters">
+                <button class="filter-btn active" role="listitem">All</button>
+                <button class="filter-btn" role="listitem">Photography</button>
+                <button class="filter-btn" role="listitem">Audio</button>
+                <button class="filter-btn" role="listitem">Video</button>
+                <button class="filter-btn" role="listitem">Design</button>
+                <button class="filter-btn" role="listitem">3D</button>
+                <button class="filter-btn" role="listitem">Popular</button>
+                <button class="filter-btn" role="listitem">New</button>
             </div>
-            
-        <!-- <h3>This displayed presets is just an example. for working models ask the admin to add them.</h3> -->
-            <div class="preset-grid" id="presetGrid">
-                <!-- Preset Card 1 -->
-                <div class="preset-card" data-category="photography" data-title="nordic-lightroom-preset" data-creator="studionord" data-tags="lightroom, photo, preset, nordic, minimal">
-                    <div class="preset-image">
-                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Nordic Lightroom Preset">
-                    </div>
-                    <div class="preset-info">
-                        <div class="preset-meta">
-                            <span>Photography</span>
-                        </div>
-                        <h3 class="preset-title">Nordic Lightroom Preset</h3>
-                        <p class="preset-description">A collection of 10 minimal, clean presets that bring out the natural beauty in your photos with cool tones and soft contrasts.</p>
-                        <div class="preset-footer">
-                            <span class="preset-price">$24.99</span>
-                            <div class="rating">
-                                <span>★</span>
-                                <span>4.8</span>
-                                <span>(127)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Preset Card 2 -->
-               
-            </div>
+            <div class="preset-grid" id="presetGrid" aria-live="polite" aria-label="Preset cards gallery" aria-relevant="additions removals"></div>
         </section>
     </main>
-    
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -552,222 +715,205 @@
             </div>
         </div>
     </footer>
-<script>
-    // Function to fetch presets from the server
-    async function fetchPresetsFromDB() {
-        try {
-            const response = await fetch('/api/presets/get', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+
+    <script>
+        // Sample data for demonstration
+        const samplePresets = [
+            {
+                id: 1,
+                title: "Urban Photography Pack",
+                description: "Transform your cityscape photos with these professional urban presets. Perfect for street photography and architectural shots.",
+                price: 29.99,
+                category: "Photography",
+                creator: { username: "UrbanLens" },
+                previewImages: ["https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["urban", "city", "street", "architecture"]
+            },
+            {
+                id: 2,
+                title: "Cinematic Video LUTs",
+                description: "Give your videos a Hollywood look with these cinematic LUTs. Compatible with all major video editing software.",
+                price: 39.99,
+                category: "Video",
+                creator: { username: "FilmMakerPro" },
+                previewImages: ["https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["cinematic", "video", "LUTs", "hollywood"]
+            },
+            {
+                id: 3,
+                title: "Analog Synth Presets",
+                description: "Warm analog synth sounds for your next production. Includes pads, leads, and bass presets.",
+                price: 24.99,
+                category: "Audio",
+                creator: { username: "SoundDesigner" },
+                previewImages: ["https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["synth", "analog", "music", "audio"]
+            },
+            {
+                id: 4,
+                title: "Minimal UI Design Kit",
+                description: "Clean and modern UI components for your next design project. Includes buttons, forms, and navigation elements.",
+                price: 34.99,
+                category: "Design",
+                creator: { username: "DesignMaster" },
+                previewImages: ["https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["UI", "design", "minimal", "modern"]
+            },
+            {
+                id: 5,
+                title: "3D Material Pack",
+                description: "High-quality PBR materials for your 3D projects. Includes metals, woods, fabrics, and more.",
+                price: 49.99,
+                category: "3D",
+                creator: { username: "3DArtist" },
+                previewImages: ["https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["3D", "materials", "PBR", "textures"]
+            },
+            {
+                id: 6,
+                title: "Portrait Perfection Pack",
+                description: "Flattering presets designed specifically for portrait photography. Enhance skin tones and bring out the best in your subjects.",
+                price: 27.99,
+                category: "Photography",
+                creator: { username: "PortraitPro" },
+                previewImages: ["https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"],
+                tags: ["portrait", "people", "skin", "photography"]
+            }
+        ];
+
+        async function fetchPresetsFromDB() {
+            // Simulate API call with timeout
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(samplePresets);
+                }, 1000);
+            });
+        }
+
+        function createPresetCard(preset) {
+            const card = document.createElement('div');
+            card.className = 'preset-card';
+            card.setAttribute('data-category', (preset.category || 'unknown').toLowerCase());
+            card.setAttribute('data-title', (preset.title || 'untitled').toLowerCase().replace(/\s+/g, '-'));
+            card.setAttribute('data-creator', (preset.creator?.username || 'unknown').toLowerCase());
+            card.setAttribute('data-tags', (preset.tags || []).join(', ').toLowerCase());
+
+            const previewImage = (preset.previewImages?.[0]) || 'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
+            const description = preset.description || 'No description available';
+            const price = preset.price ? preset.price.toFixed(2) : '0.00';
+
+            card.innerHTML = `
+                <div class="preset-image">
+                    <img src="${previewImage}" alt="${preset.title || 'Preset'}" loading="lazy">
+                </div>
+                <div class="preset-info">
+                    <div class="preset-meta"><span>${preset.category || 'Unknown'}</span></div>
+                    <h3 class="preset-title">${preset.title || 'Untitled Preset'}</h3>
+                    <p class="preset-description">${description}</p>
+                    <div class="preset-footer">
+                        <span class="preset-price">$${price}</span>
+                        <div class="rating">
+                            <span>★</span>
+                            <span>4.5</span>
+                            <span>(0)</span>
+                        </div>
+                    </div>
+                </div>`;
+
+            card.addEventListener('click', () => {
+                const productId = card.getAttribute('data-title');
+                const category = card.getAttribute('data-category');
+                redirectToProduct(productId, category);
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch presets');
-            }
-
-            const presets = await response.json();
-            return presets;
-        } catch (error) {
-            console.error('Error fetching presets:', error);
-            return [];
+            return card;
         }
-    }
 
-    // Function to create a preset card element
-    // Function to create a preset card element
-function createPresetCard(preset) {
-    const card = document.createElement('div');
-    card.className = 'preset-card';
-    card.setAttribute('data-category', preset.category ? preset.category.toLowerCase() : 'unknown');
-    card.setAttribute('data-title', preset.title ? preset.title.toLowerCase().replace(/\s+/g, '-') : 'untitled');
-    card.setAttribute('data-creator', preset.creator ? (preset.creator.username || 'unknown') : 'unknown');
-    card.setAttribute('data-tags', preset.tags ? preset.tags.join(', ') : '');
-    
-    // Safely handle potentially undefined properties
-    const previewImage = preset.previewImages && preset.previewImages.length > 0 
-        ? preset.previewImages[0] 
-        : 'https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60';
-    
-    const description = preset.description || 'No description available';
-    const price = preset.price ? preset.price.toFixed(2) : '0.00';
-    
-    card.innerHTML = `
-        <div class="preset-image">
-            <img src="${previewImage}" alt="${preset.title || 'Preset'}">
-        </div>
-        <div class="preset-info">
-            <div class="preset-meta">
-                <span>${preset.category || 'Unknown'}</span>
-            </div>
-            <h3 class="preset-title">${preset.title || 'Untitled Preset'}</h3>
-            <p class="preset-description">${description}</p>
-            <div class="preset-footer">
-                <span class="preset-price">$${price}</span>
-                <div class="rating">
-                    <span>★</span>
-                    <span>4.5</span>
-                    <span>(0)</span>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Add click event listener
-    card.addEventListener('click', function() {
-        const productId = this.getAttribute('data-title');
-        const category = this.getAttribute('data-category');
-        redirectToProduct(productId, category);
-    });
-    
-    return card;
-}
+        async function loadPresets() {
+            const presetGrid = document.getElementById('presetGrid');
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.textContent = 'Loading presets...';
+            loadingIndicator.style.textAlign = 'center';
+            loadingIndicator.style.padding = '40px';
+            loadingIndicator.style.color = 'var(--text-secondary)';
+            loadingIndicator.innerHTML = '<div class="loading"></div><p style="margin-top: 16px;">Loading presets...</p>';
+            presetGrid.appendChild(loadingIndicator);
 
-    // Function to load and display presets
-    async function loadPresets() {
-        const presetGrid = document.getElementById('presetGrid');
-        const loadingIndicator = document.createElement('div');
-        loadingIndicator.textContent = 'Loading presets...';
-        loadingIndicator.style.textAlign = 'center';
-        loadingIndicator.style.padding = '20px';
-        loadingIndicator.style.color = 'var(--text-secondary)';
-        presetGrid.appendChild(loadingIndicator);
-        
-        try {
-            const dbPresets = await fetchPresetsFromDB();
-            console.log(dbPresets[0])
-            // Remove loading indicator
-            presetGrid.removeChild(loadingIndicator);
-            
-            if (dbPresets.length === 0) {
+            const presets = await fetchPresetsFromDB();
+            presetGrid.innerHTML = '';
+
+            if (!presets.length) {
                 const noPresets = document.createElement('div');
-                noPresets.textContent = 'No presets found in the database.';
+                noPresets.textContent = 'No presets found.';
                 noPresets.style.textAlign = 'center';
-                noPresets.style.padding = '20px';
+                noPresets.style.padding = '40px';
                 noPresets.style.color = 'var(--text-secondary)';
                 presetGrid.appendChild(noPresets);
                 return;
             }
-            
-            // Add presets from database to the grid
-            dbPresets.forEach(preset => {
+
+            presets.forEach(preset => {
                 const card = createPresetCard(preset);
-                console.log(card)
                 presetGrid.appendChild(card);
             });
-            
-            // Update search functionality to include new cards
+
             setupSearchFunctionality();
-            
-        } catch (error) {
-            console.error('Error loading presets:', error);
-            loadingIndicator.textContent = 'Error loading presets. Please try again later.';
+            setupFilterButtons();
+            setupProfileDropdown();
+            setupMobileMenu();
         }
-    }
 
-    // Update search functionality to work with dynamically loaded cards
-    function setupSearchFunctionality() {
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('keyup', searchPresets);
-    }
-
-    // Call loadPresets when the page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        loadPresets();
-        
-        // ... rest of your existing DOMContentLoaded code ...
-    });
-
-    // ... rest of your existing JavaScript code ...
-</script>
-    <script>
-        const username = "<%=username%>";
-        const name = document.querySelector('.name');
-        name.innerText=`hello! ${username}`;
-        // Profile dropdown functionality
-        const profileBtn = document.getElementById('profileBtn');
-        const profileDropdown = document.getElementById('profileDropdown');
-        
-        profileBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('active');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function() {
-            profileDropdown.classList.remove('active');
-        });
-        
-        // Logout functionalit
-        
-        // Add click event listeners to all preset cards
-        document.querySelectorAll('.preset-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const productId = this.getAttribute('data-title');
-                const category = this.getAttribute('data-category');
-                redirectToProduct(productId, category);
-            });
-        });
-
-        // Redirect to product page with parameters
         function redirectToProduct(productId, category) {
-            // Ensure productId is URL-friendly (replace spaces with hyphens, lowercase, etc.)
             const formattedProductId = productId.toLowerCase().replace(/\s+/g, '-');
             window.location.href = `product?id=${formattedProductId}&category=${category.toLowerCase()}`;
         }
 
-        // Search functionality
         function searchPresets() {
             const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
+            const filter = input.value.toLowerCase().trim();
             const presetGrid = document.getElementById('presetGrid');
             const presetCards = presetGrid.getElementsByClassName('preset-card');
             const searchResults = document.getElementById('searchResults');
             
-            // Clear previous search results
+            // Clear previous results
             searchResults.innerHTML = '';
             
             if (filter === '') {
                 searchResults.classList.remove('active');
-                // Show all cards
-                for (let i = 0; i < presetCards.length; i++) {
-                    presetCards[i].style.display = '';
+                for (let card of presetCards) {
+                    card.style.display = '';
                 }
                 return;
             }
-            
-            let hasResults = false;
+
             searchResults.classList.add('active');
-            
-            // Create a results container
+            let hasResults = false;
             const resultsContainer = document.createElement('div');
             resultsContainer.innerHTML = '<h3>Search Results</h3>';
-            
-            for (let i = 0; i < presetCards.length; i++) {
-                const card = presetCards[i];
+
+            for (let card of presetCards) {
                 const title = card.getAttribute('data-title');
                 const creator = card.getAttribute('data-creator');
                 const category = card.getAttribute('data-category');
                 const tags = card.getAttribute('data-tags');
-                
-                if (title.toLowerCase().includes(filter) || 
-                    creator.toLowerCase().includes(filter) || 
-                    category.toLowerCase().includes(filter) || 
-                    tags.toLowerCase().includes(filter)) {
+
+                if (
+                    title.includes(filter) ||
+                    creator.includes(filter) ||
+                    category.includes(filter) ||
+                    tags.includes(filter)
+                ) {
                     hasResults = true;
                     card.style.display = '';
                     
-                    // Add to search results
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'preset-card';
-                    resultItem.innerHTML = card.innerHTML;
+                    // Clone card for search results (optional)
+                    const resultItem = card.cloneNode(true);
                     resultsContainer.appendChild(resultItem);
                 } else {
                     card.style.display = 'none';
                 }
             }
-            
+
             if (hasResults) {
                 searchResults.appendChild(resultsContainer);
             } else {
@@ -775,41 +921,121 @@ function createPresetCard(preset) {
             }
         }
 
-        // Filter buttons functionality
-        document.querySelectorAll('.filter-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                const filter = this.textContent.toLowerCase();
-                const presetGrid = document.getElementById('presetGrid');
-                const presetCards = presetGrid.getElementsByClassName('preset-card');
-                
-                if (filter === 'all') {
-                    // Show all cards
-                    for (let i = 0; i < presetCards.length; i++) {
-                        presetCards[i].style.display = '';
-                    }
-                } else {
-                    // Filter by category
-                    for (let i = 0; i < presetCards.length; i++) {
-                        const card = presetCards[i];
-                        const category = card.getAttribute('data-category');
-                        
-                        if (category.includes(filter)) {
-                            card.style.display = '';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    }
+        function setupSearchFunctionality() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchInput.addEventListener('input', searchPresets);
+            
+            // Close search results when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.remove('active');
                 }
             });
-        });
+            
+            // Keep results open when clicking on them
+            searchResults.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        function setupFilterButtons() {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.textContent.toLowerCase();
+                    const presetGrid = document.getElementById('presetGrid');
+                    const presetCards = presetGrid.getElementsByClassName('preset-card');
+
+                    if (filter === 'all') {
+                        for (let card of presetCards) {
+                            card.style.display = '';
+                        }
+                    } else if (filter === 'popular') {
+                        // Simulate popularity filter (in a real app, this would use actual data)
+                        for (let card of presetCards) {
+                            const title = card.getAttribute('data-title');
+                            // Just show some presets as popular for demo
+                            card.style.display = (title.includes('urban') || title.includes('cinematic')) ? '' : 'none';
+                        }
+                    } else if (filter === 'new') {
+                        // Simulate new filter (in a real app, this would use actual data)
+                        for (let card of presetCards) {
+                            const title = card.getAttribute('data-title');
+                            // Just show some presets as new for demo
+                            card.style.display = (title.includes('portrait') || title.includes('3d')) ? '' : 'none';
+                        }
+                    } else {
+                        for (let card of presetCards) {
+                            const category = card.getAttribute('data-category');
+                            card.style.display = category.includes(filter) ? '' : 'none';
+                        }
+                    }
+                    
+                    // Close search results when filtering
+                    document.getElementById('searchResults').classList.remove('active');
+                });
+            });
+        }
+
+        function setupProfileDropdown() {
+            const profileBtn = document.getElementById('profileBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+
+            profileBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                const isActive = profileDropdown.classList.toggle('active');
+                profileBtn.setAttribute('aria-expanded', isActive.toString());
+            });
+
+            document.addEventListener('click', () => {
+                profileDropdown.classList.remove('active');
+                profileBtn.setAttribute('aria-expanded', 'false');
+            });
+
+            profileBtn.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    profileDropdown.classList.remove('active');
+                    profileBtn.setAttribute('aria-expanded', 'false');
+                    profileBtn.focus();
+                }
+            });
+        }
+        
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navLinks.classList.toggle('active');
+                mobileMenuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (navLinks.classList.contains('active') && 
+                    !navLinks.contains(e.target) && 
+                    !mobileMenuBtn.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.textContent = '☰';
+                }
+            });
+            
+            // Close menu when clicking a link
+            const links = navLinks.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.textContent = '☰';
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPresets);
     </script>
 </body>
 </html>
