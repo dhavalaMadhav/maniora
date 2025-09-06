@@ -1,927 +1,1218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PresetMarket | Digital Preset Marketplace</title>
-    <style>
-        :root {
-            --primary: #000000;
-            --secondary: #1a1a1a;
-            --accent: #0071e3;
-            --text: #f5f5f7;
-            --text-secondary: #86868b;
-            --card-bg: #161617;
-            --gap: 24px;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        
-        body {
-            background-color: var(--primary);
-            color: var(--text);
-            line-height: 1.5;
-        }
-        
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-        
-        header {
-            padding: 24px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            z-index: 100;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--text);
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 16px;
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(0, 113, 227, 0.1);
-        }
-        
-        .btn-filled {
-            background: var(--accent);
-            color: white;
-        }
-        
-        .btn-filled:hover {
-            background: #0077ed;
-        }
-        
-        /* New Interactive Hero Section */
-        .hero-interactive {
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .hero-title {
-            font-size: 64px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            background: linear-gradient(90deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.2;
-        }
-        
-        .hero-subtitle {
-            font-size: 22px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 60px;
-        }
-        
-        .hero-btn {
-            padding: 12px 32px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .hero-btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-        
-        .hero-btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .hero-btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        /* Preset Showcase */
-        .preset-showcase {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            margin-bottom: 100px;
-            position: relative;
-        }
-        
-        .preset-before-after {
-            width: 600px;
-            height: 400px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-        
-        .preset-image-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .preset-before, .preset-after {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            object-fit: cover;
-        }
-        
-        .preset-after {
-            width: 50%;
-            overflow: hidden;
-        }
-        
-        .preset-divider {
-            position: absolute;
-            height: 100%;
-            width: 4px;
-            background: white;
-            left: 50%;
-            transform: translateX(-50%);
-            cursor: ew-resize;
-            z-index: 10;
-        }
-        
-        .preset-info-panel {
-            max-width: 400px;
-        }
-        
-        .preset-info-title {
-            font-size: 32px;
-            margin-bottom: 16px;
-        }
-        
-        .preset-info-description {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-        
-        .preset-stats {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        /* Preset Categories */
-        .categories-section {
-            padding: 80px 0;
-            background: var(--secondary);
-            margin-bottom: 100px;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-title {
-            font-size: 40px;
-            margin-bottom: 16px;
-        }
-        
-        .section-subtitle {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 24px;
-        }
-        
-        .category-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .category-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-        
-        .category-title {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        
-        .category-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        /* Testimonials */
-        .testimonials-section {
-            padding: 80px 0;
-            margin-bottom: 100px;
-        }
-        
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .testimonial-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            position: relative;
-        }
-        
-        .testimonial-quote {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-        }
-        
-        .author-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .author-info p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        /* How It Works */
-        .how-it-works {
-            padding: 80px 0;
-            background: var(--secondary);
-            margin-bottom: 100px;
-        }
-        
-        .steps-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 60px;
-            position: relative;
-        }
-        
-        .step-line {
-            position: absolute;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            top: 40px;
-            left: 10%;
-            right: 10%;
-            z-index: 1;
-        }
-        
-        .step {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            width: 20%;
-        }
-        
-        .step-number {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-            margin: 0 auto 20px;
-        }
-        
-        .step-title {
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-        
-        .step-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        /* Featured Creators */
-        .creators-section {
-            padding: 80px 0;
-            margin-bottom: 100px;
-        }
-        
-        .creators-grid {
-            /* display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 30px; */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .creator-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .creator-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .creator-avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 15px;
-            border: 3px solid var(--accent);
-        }
-        
-        .creator-name {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-        
-        .creator-specialty {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .creator-stats {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .creator-stat {
-            text-align: center;
-        }
-        
-        .creator-stat-number {
-            font-weight: 700;
-        }
-        
-        .creator-stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        
-        /* Footer styles remain the same */
-        footer {
-            padding: 64px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-        
-        .footer-column h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-column ul li a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        
-        .footer-column ul li a:hover {
-            color: var(--text);
-        }
-        
-        .copyright {
-            margin-top: 64px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        @media (max-width: 1024px) {
-            .preset-showcase {
-                flex-direction: column;
-            }
-            
-            .preset-before-after {
-                width: 100%;
-                max-width: 600px;
-            }
-            
-            .preset-info-panel {
-                max-width: 100%;
-                text-align: center;
-            }
-            
-            .preset-stats {
-                justify-content: center;
-            }
-            
-            .steps-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .step {
-                width: 100%;
-                margin-bottom: 40px;
-            }
-            
-            .step-line {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 48px;
-            }
-            
-            .hero-subtitle {
-                font-size: 18px;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .preset-before-after {
-                height: 300px;
-            }
-            
-            .section-title {
-                font-size: 32px;
-            }
-        }
-         /* Typing animation on the title */
-        .hero-title  {
-            font-size: 65px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            background: linear-gradient(90deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            overflow: hidden; /* Ensures the caret doesn't overflow */
-            white-space: nowrap;
-            border-right: 3px solid var(--accent);
-            width: 0;
-            margin-left: auto;
-            margin-right: auto;
-            animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PresetMarket | Digital Preset Marketplace</title>
+<style>
+:root {
+    --primary: #000000;
+    --secondary: #0a0a0a;
+    --accent: #0071e3;
+    --accent-dark: #005bb5;
+    --text: #f5f5f7;
+    --text-secondary: #86868b;
+    --card-bg: #161617;
+    --gap: 24px;
+    --glow-blue: #3ea1ff;
+}
 
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 28ch; }
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--accent) }
-        }
-    </style>
+
+body {
+    background-color: var(--primary);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 16px;
+    }
+}
+
+
+header {
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+/* On mobile (<=600px), hide logo and navigation links */
+@media (max-width: 600px) {
+    .logo, .nav-links {
+        display: none;
+    }
+    nav {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+        order: 2;
+    }
+    .user-actions {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+    .logo {
+        order: 1;
+        flex: 1 1 100%;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+}
+
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text);
+}
+
+
+.user-actions {
+    display: flex;
+    gap: 16px;
+}
+
+
+@media (max-width: 600px) {
+    .user-actions {
+        gap: 8px;
+    }
+}
+
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    position: relative;
+}
+
+
+.btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    box-shadow: none;
+}
+
+
+.btn-outline:hover {
+    background: rgba(0, 113, 227, 0.1);
+    box-shadow: 0 6px 8px rgba(0, 113, 227, 0.6);
+}
+
+
+.btn-filled {
+    background: var(--accent);
+    color: white;
+    box-shadow: none;
+}
+
+
+.btn-filled:hover {
+    background: #0077ed;
+    box-shadow: 0 6px 8px rgba(0, 113, 227, 0.7);
+}
+
+
+/* New Interactive Hero Section */
+.hero-interactive {
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+.hero-title {
+    font-size: 72px;
+    font-weight: 900;
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, #fff, #aaa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+    border-radius: 15px;
+    padding: 8px 16px;
+    display: inline-block;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.6);
+    width: auto;
+    border-right: none;
+    white-space: normal;
+}
+
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 48px;
+    }
+}
+
+
+.hero-subtitle {
+    font-size: 22px;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+
+.hero-btn {
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+
+.hero-btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+
+.hero-btn-primary:hover {
+    box-shadow: 0 8px 20px rgba(0,113,227,0.8);
+    transform: translateY(-3px);
+}
+
+
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(255,255,255,0.6);
+    transform: translateY(-3px);
+}
+
+
+/* Preset Showcase */
+.preset-showcase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 100px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+
+.preset-before-after {
+    width: 600px;
+    height: 400px;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+
+.preset-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+
+.preset-before,
+.preset-after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+}
+
+
+.preset-after {
+    width: 50%;
+    overflow: hidden;
+}
+
+
+.preset-divider {
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    background: white;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    z-index: 10;
+}
+
+
+.preset-info-panel {
+    max-width: 400px;
+    color: var(--text);
+    background: var(--card-bg);
+    border-radius: 0 0 16px 16px;
+    padding: 32px 24px;
+    box-sizing: border-box;
+}
+
+
+.preset-info-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+
+.preset-info-description {
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+
+.preset-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+
+.stat-item {
+    text-align: center;
+    flex: 1 1 80px;
+}
+
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+
+.btn-filled {
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    border-radius: 24px;
+    font-size: 16px;
+    padding: 12px 32px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    width: 100%;
+}
+
+
+.btn-filled:hover {
+    box-shadow: 0 6px 16px rgba(0,113,227,0.7);
+    transform: translateY(-3px);
+}
+
+
+@media (max-width: 900px) {
+    .preset-showcase {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .preset-before-after,
+    .preset-info-panel {
+        border-radius: 16px;
+        max-width: 100%;
+    }
+    .preset-info-panel {
+        border-radius: 16px;
+        padding: 24px;
+    }
+}
+
+
+/* Preset Categories Section */
+.categories-section {
+    padding: 80px 0;
+    background: var(--secondary);
+    margin-bottom: 100px;
+}
+
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+
+.section-title {
+    font-size: 40px;
+    margin-bottom: 16px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+
+.section-subtitle {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px 24px;
+    position: relative;
+}
+
+
+.category-card {
+    position: relative;
+    background: var(--primary);
+    border-left: 4px solid var(--accent);
+    border-right: 4px solid var(--accent);
+    border-bottom: 4px solid var(--accent);
+    padding: 40px 20px 30px 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: visible;
+    color: var(--text);
+}
+
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 12px 12px 0 0;
+    border-top: none;
+    z-index: 1;
+}
+
+
+.category-icon {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    color: var(--accent);
+    z-index: 2;
+    box-shadow: 0 0 10px var(--accent);
+    transition: all 0.3s ease;
+}
+
+
+.category-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--accent);
+}
+
+
+.category-title {
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+
+.category-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+
+.category-card:hover {
+    box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.4);
+    transform: rotate(2deg);
+    border-left-color: #3ea1ff;
+    border-right-color: #3ea1ff;
+    border-bottom-color: #3ea1ff;
+}
+
+
+.category-card:hover .category-icon {
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+}
+
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 80px 0;
+    margin-bottom: 100px;
+    background: var(--primary);
+    text-align: center;
+}
+
+
+.testimonials-grid {
+    display: flex;
+    justify-content: center;
+}
+
+
+.testimonial-card {
+    border-radius: 12px;
+    padding: 40px 30px 30px;
+    border-left: 4px solid var(--accent);
+    border-right: 4px solid var(--accent);
+    border-bottom: 4px solid var(--accent);
+    max-width: 400px;
+    box-shadow: 0 10px 20px var(--accent);
+    color: var(--text);
+    position: relative;
+}
+
+
+.testimonial-quote {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: var(--text-secondary);
+}
+
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+.author-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 16px var(--accent);
+    object-fit: cover;
+    filter: drop-shadow(0 0 4px var(--accent));
+}
+
+
+.author-info h4 {
+    font-size: 20px;
+    margin-bottom: 4px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+
+.author-info p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+/* How It Works Section */
+.how-it-works {
+    padding: 80px 0;
+    background: var(--primary);
+    margin-bottom: 100px;
+    position: relative;
+    color: var(--text);
+}
+
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    position: relative;
+}
+
+
+/* Glowing partition between sections */
+.partition-line {
+    position: relative;
+    height: 2px;
+    margin: 60px auto 80px auto;
+    width: 80%;
+    background: rgba(62, 161, 255, 0.25);
+    box-shadow:
+        0 0 10px var(--glow-blue),
+        inset 0 0 10px var(--glow-blue);
+    border-radius: 1px;
+}
+
+
+/* Glowing bulbs on ends */
+.partition-line::before,
+.partition-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--glow-blue);
+    box-shadow:
+        0 0 8px 2px var(--glow-blue),
+        inset 0 0 6px var(--glow-blue);
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+
+.partition-line::before {
+    left: 0;
+}
+
+
+.partition-line::after {
+    right: 0;
+}
+
+
+.step-line {
+    position: absolute;
+    height: 2px;
+    background: rgba(62, 161, 255, 0.25);
+    top: 40px;
+    left: 10%;
+    right: 10%;
+    z-index: 1;
+    border-radius: 1px;
+    box-shadow:
+        0 0 8px var(--glow-blue),
+        inset 0 0 8px var(--glow-blue);
+}
+
+
+.step {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 20%;
+    color: var(--text);
+}
+
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 12px var(--accent);
+}
+
+
+.step-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+
+.step-description {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+
+/* Featured Creators Section */
+.creators-section {
+    padding: 80px 0;
+    margin-bottom: 100px;
+    background: var(--secondary);
+    color: var(--text);
+    text-align: center;
+}
+
+
+.creators-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+
+.creator-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 360px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+
+.creator-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px var(--accent);
+}
+
+
+.creator-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 25px;
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 25px var(--accent);
+    filter: drop-shadow(0 0 12px var(--accent));
+    transition: all 0.3s ease;
+}
+
+
+.creator-name {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    color: var(--text);
+}
+
+
+.creator-specialty {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+/* Footer */
+footer {
+    padding: 64px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--primary);
+}
+
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    color: var(--text-secondary);
+}
+
+
+.footer-column h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+
+.footer-column ul {
+    list-style: none;
+}
+
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+
+.footer-column ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+
+.footer-column ul li a:hover {
+    color: var(--text);
+}
+
+
+.copyright {
+    margin-top: 64px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .preset-showcase {
+        flex-direction: column;
+    }
+    .preset-before-after {
+        width: 100%;
+        max-width: 600px;
+    }
+    .preset-info-panel {
+        max-width: 100%;
+        text-align: center;
+    }
+    .preset-stats {
+        justify-content: center;
+    }
+    .steps-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .step {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    .step-line {
+        display: none;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 48px;
+    }
+    .hero-subtitle {
+        font-size: 18px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    .preset-before-after {
+        height: 300px;
+    }
+    .section-title {
+        font-size: 32px;
+    }
+}
+</style>
 </head>
 <body>
-    <header>
+<header>
+  <div class="container">
+    <nav>
+      <a href="#hero" class="logo">PresetMarket</a>
+      <div class="nav-links">
+        <a href="#hero" class="active">Marketplace</a>
+        <a href="#explore">Categories</a>
+        <a href="#creators">Creators</a>
+        <a href="#learn">About</a>
+      </div>
+      <div class="user-actions">
+        <button class="btn btn-outline" onclick="window.location.href='login'">Login</button>
+        <button class="btn btn-filled" onclick="window.location.href='signup'">Sign Up</button>
+      </div>
+    </nav>
+  </div>
+</header>
+<main>
+    <!-- Interactive Hero Section -->
+    <section class="hero-interactive" id="hero">
         <div class="container">
-            <nav>
-                <a href="index" class="logo">PresetMarket</a>
-                <div class="nav-links">
-                    <a href="index" class="active">Marketplace</a>
-                    <a href="categories">Categories</a>
-                    <a href="creators">Creators</a>
-                    <a href="about">About</a>
+            <div class="hero-content">
+                <h1 class="hero-title">Transform Your Creative Workflow</h1>
+                <p class="hero-subtitle">
+                    Discover the power of professional presets to elevate your photography, video, audio, and design projects
+                </p>
+                <div class="hero-buttons">
+                    <button class="hero-btn hero-btn-primary" onclick="window.location.href='#explore'">Explore Presets</button>
+                    <button class="hero-btn hero-btn-secondary" onclick="window.location.href='#learn'">Learn More</button>
                 </div>
-                <div class="user-actions">
-                    <button class="btn btn-outline" onclick="window.location.href='login'">Login</button>
-                    <button class="btn btn-filled" onclick="window.location.href='signup'">Sign Up</button>
-                </div>
-            </nav>
-        </div>
-    </header>
-    
-    <main>
-        <!-- Interactive Hero Section -->
-        <section class="hero-interactive">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Transform Your Creative Workflow</h1>
-                    <p class="hero-subtitle">Discover the power of professional presets to elevate your photography, video, audio, and design projects</p>
-                    <div class="hero-buttons">
-                        <button class="hero-btn hero-btn-primary" onclick="window.location.href='#explore'">Explore Presets</button>
-                        <button class="hero-btn hero-btn-secondary" onclick="window.location.href='#learn'">Learn More</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Preset Showcase -->
-        <section class="container">
-            <div class="preset-showcase">
-                <div class="preset-before-after" id="presetComparison">
-                    <div class="preset-image-container">
-                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Before preset" class="preset-before">
-                        <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="After preset" class="preset-after" style="filter: contrast(1.1) saturate(1.2) brightness(0.95) hue-rotate(-5deg);">
-                        <div class="preset-divider" id="presetDivider"></div>
-                    </div>
-                </div>
-                <div class="preset-info-panel">
-                    <h2 class="preset-info-title">Nordic Lightroom Preset Pack</h2>
-                    <p class="preset-info-description">This collection of 10 minimal, clean presets brings out the natural beauty in your photos with cool tones and soft contrasts. Perfect for portrait, landscape, and lifestyle photography.</p>
-                    <div class="preset-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">10+</div>
-                            <div class="stat-label">Presets</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">4.8</div>
-                            <div class="stat-label">Rating</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">2K</div>
-                            <div class="stat-label">Downloads</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-filled" style="padding: 12px 32px; font-size: 16px;">Get This Preset Pack - $24.99</button>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Preset Categories -->
-        <section class="categories-section" id="explore">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Find Your Perfect Preset</h2>
-                    <p class="section-subtitle">Browse through our carefully curated categories to find the tools that will transform your creative projects</p>
-                </div>
-                <div class="categories-grid">
-                    <div class="category-card" onclick="window.location.href='photography'">
-                        <div class="category-icon">📷</div>
-                        <h3 class="category-title">Photography</h3>
-                        <p class="category-description">Lightroom presets, Photoshop actions, and camera profiles for stunning images</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='video'">
-                        <div class="category-icon">🎬</div>
-                        <h3 class="category-title">Video</h3>
-                        <p class="category-description">LUTs, Premiere Pro presets, and DaVinci Resolve power grades</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='audio'">
-                        <div class="category-icon">🎵</div>
-                        <h3 class="category-title">Audio</h3>
-                        <p class="category-description">Synth presets, effect chains, and mixing templates for your DAW</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='design'">
-                        <div class="category-icon">🎨</div>
-                        <h3 class="category-title">Design</h3>
-                        <p class="category-description">Illustrator brushes, Photoshop actions, and Figma components</p>
-                    </div>
-                    <div class="category-card" onclick="window.location.href='3d'">
-                        <div class="category-icon">🖥️</div>
-                        <h3 class="category-title">3D</h3>
-                        <p class="category-description">Materials, lighting presets, and render settings for 3D software</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Testimonials -->
-        <section class="testimonials-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Trusted by Creatives Worldwide</h2>
-                    <p class="section-subtitle">Join thousands of professionals who have transformed their workflow with our presets</p>
-                </div>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <p class="testimonial-quote">"The Nordic Lightroom pack completely changed my editing workflow. What used to take me hours now takes minutes with consistent, beautiful results."</p>
-                        <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah J." class="author-avatar">
-                            <div class="author-info">
-                                <h4>Sarah J.</h4>
-                                <p>Professional Photographer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <p class="testimonial-quote">"As a YouTuber, the cinematic LUTs pack has given my videos that professional look I've been trying to achieve for years. Worth every penny!"</p>
-                        <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="author-avatar">
-                            <div class="author-info">
-                                <h4>Michael T.</h4>
-                                <p>Content Creator</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <p class="testimonial-quote">"The Serum presets have become the foundation of my sound design. They're incredibly versatile and have saved me countless hours of sound design."</p>
-                        <div class="testimonial-author">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Elena R." class="author-avatar">
-                            <div class="author-info">
-                                <h4>Elena R.</h4>
-                                <p>Music Producer</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- How It Works -->
-        <section class="how-it-works" id="learn">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">How PresetMarket Works</h2>
-                    <p class="section-subtitle">Get started in just a few simple steps</p>
-                </div>
-                <div class="steps-container">
-                    <div class="step-line"></div>
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3 class="step-title">Browse & Discover</h3>
-                        <p class="step-description">Explore our extensive collection of presets across multiple creative categories</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3 class="step-title">Preview & Select</h3>
-                        <p class="step-description">Try before you buy with our interactive preview tools and demo versions</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3 class="step-title">Purchase</h3>
-                        <p class="step-description">Complete your purchase securely with our trusted payment system</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <h3 class="step-title">Download & Create</h3>
-                        <p class="step-description">Get instant access to your files and start creating amazing content</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Featured Creators -->
-        <section class="creators-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Featured Creators</h2>
-                    <p class="section-subtitle">Meet some of the talented professionals who create our premium presets</p>
-                </div>
-                <div class="creators-grid">
-                    <div class="creator-card" onclick="window.location.href='creator/studionord'">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="StudioNord" class="creator-avatar">
-                        <h3 class="creator-name">Dhavala Sai Madhav</h3>
-                        <p class="creator-specialty"> Professiol</p>
-                        <div class="creator-stats">
-                            <div class="creator-stat">
-                                <div class="creator-stat-number">24</div>
-                                <div class="creator-stat-label">Presets</div>
-                            </div>
-                            <div class="creator-stat">
-                                <div class="creator-stat-number">4.9</div>
-                                <div class="creator-stat-label">Rating</div>
-                            </div>
-                        </div>
-                    </div>                  
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Marketplace</h3>
-                    <ul>
-                        <li><a href="index">Browse Presets</a></li>
-                        <li><a href="categories.html">Categories</a></li>
-                        <li><a href="creators.html">Top Creators</a></li>
-                        <li><a href="new-releases.html">New Releases</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>For Creators</h3>
-                    <ul>
-                        <li><a href="become-creator.html">Become a Creator</a></li>
-                        <li><a href="dashboard.html">Creator Dashboard</a></li>
-                        <li><a href="pricing.html">Pricing Guidelines</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="help.html">Help Center</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="faq.html">FAQs</a></li>
-                        <li><a href="refund-policy.html">Refund Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="careers.html">Careers</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="press.html">Press</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>© 2023 PresetMarket. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        // Before/After Comparison Slider
-        const presetComparison = document.getElementById('presetComparison');
-        const presetDivider = document.getElementById('presetDivider');
-        let isDragging = false;
+    <div class="partition-line"></div>
 
-        presetDivider.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            presetDivider.style.transition = 'none';
-            document.body.style.cursor = 'ew-resize';
+    <!-- Preset Showcase -->
+    <section class="container">
+        <div class="preset-showcase">
+            <div class="preset-before-after" id="presetComparison">
+                <div class="preset-image-container">
+                    <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Before preset" class="preset-before" />
+                    <img src="https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="After preset" class="preset-after" style="filter: contrast(1.1) saturate(1.2) brightness(0.95) hue-rotate(-5deg);" />
+                    <div class="preset-divider" id="presetDivider"></div>
+                </div>
+            </div>
+            <div class="preset-info-panel">
+                <h2 class="preset-info-title">Nordic Lightroom Preset Pack</h2>
+                <p class="preset-info-description">
+                    This collection of 10 minimal, clean presets brings out the natural beauty in your photos with cool tones and soft contrasts. Perfect for portrait, landscape, and lifestyle photography.
+                </p>
+                <div class="preset-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Presets</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.8</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2K</div>
+                        <div class="stat-label">Downloads</div>
+                    </div>
+                </div>
+                <button class="btn btn-filled">Get This Preset Pack - $24.99</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="partition-line"></div>
+
+    <!-- Preset Categories -->
+    <section class="categories-section" id="explore">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Find Your Perfect Preset</h2>
+                <p class="section-subtitle">
+                    Browse through our carefully curated categories to find the tools that will transform your creative projects
+                </p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card" onclick="window.location.href='photography'">
+                    <div class="category-icon" aria-label="Photography" title="Photography">
+                        <!-- Camera SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M20 5h-3.2l-1.3-1.8A1 1 0 0014.7 3H9.3a1 1 0 00-.8.4L7.2 5H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2zM12 18a5 5 0 110-10 5 5 0 010 10z"></path>
+                            <circle cx="12" cy="13" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Photography</h3>
+                    <p class="category-description">Lightroom presets, Photoshop actions, and camera profiles for stunning images</p>
+                </div>
+
+                <div class="category-card" onclick="window.location.href='video'">
+                    <div class="category-icon" aria-label="Video" title="Video">
+                        <!-- Video Camera SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M17 10.5v-3a1 1 0 00-1-1H5a2 2 0 00-2 2v6a2 2 0 002 2h11a1 1 0 001-1v-3l4 4V6.5l-4 4z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Video</h3>
+                    <p class="category-description">LUTs, Premiere Pro presets, and DaVinci Resolve power grades</p>
+                </div>
+
+                <div class="category-card" onclick="window.location.href='audio'">
+                    <div class="category-icon" aria-label="Audio" title="Audio">
+                        <!-- Headphones SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 3a9 9 0 00-9 9v5a4 4 0 004 4h2a1 1 0 001-1v-7a1 1 0 00-1-1H7v-3a5 5 0 0110 0v3h-1a1 1 0 00-1 1v7a1 1 0 001 1h2a4 4 0 004-4v-5a9 9 0 00-9-9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Audio</h3>
+                    <p class="category-description">Synth presets, effect chains, and mixing templates for your DAW</p>
+                </div>
+
+                <div class="category-card" onclick="window.location.href='design'">
+                    <div class="category-icon" aria-label="Design" title="Design">
+                        <!-- Paint Brush SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M20.7 7.3a1 1 0 00-1.4 0L12 14.6 9.4 12l7.3-7.3a1 1 0 001.4 0l2.6 2.6a1 1 0 000 1.4z"></path>
+                            <path d="M3 17.7V21h3.3l7.9-7.9-3.3-3.3-7.9 7.9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">Design</h3>
+                    <p class="category-description">Illustrator brushes, Photoshop actions, and Figma components</p>
+                </div>
+
+                <div class="category-card" onclick="window.location.href='3d'">
+                    <div class="category-icon" aria-label="3D" title="3D">
+                        <!-- Cube SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2L4 7.5v9L12 22l8-5.5v-9L12 2zM5 8.9l7 4.6 7-4.6v7.3L12 19.5l-7-4.3v-6.3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-title">3D</h3>
+                    <p class="category-description">Materials, lighting presets, and render settings for 3D software</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="partition-line"></div>
+
+    <!-- Testimonials - Only one creator -->
+    <section class="testimonials-section" aria-label="Creator Testimonial">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trusted by Creatives Worldwide</h2>
+                <p class="section-subtitle">Join thousands of professionals who have transformed their workflow with our presets</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" tabindex="0" aria-description="Testimonial from Dhavala Sai Madhav">
+                    <p class="testimonial-quote">"Transform your creative workflow with presets crafted by Dhavala Sai Madhav. Experience professional-grade quality like never before."</p>
+                    <div class="testimonial-author">
+                        <img src="https://avatars.githubusercontent.com/u/55566633?v=4" alt="Dhavala Sai Madhav" class="author-avatar" />
+                        <div class="author-info">
+                            <h4>Dhavala Sai Madhav</h4>
+                            <p>Professional Preset Creator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="partition-line"></div>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="learn" aria-label="How PresetMarket Works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How PresetMarket Works</h2>
+                <p class="section-subtitle">Get started in just a few simple steps</p>
+            </div>
+            <div class="steps-container" role="list">
+                <div class="step-line"></div>
+                <div class="step" role="listitem">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Browse &amp; Discover</h3>
+                    <p class="step-description">Explore our extensive collection of presets across multiple creative categories</p>
+                </div>
+                <div class="step" role="listitem">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Preview &amp; Select</h3>
+                    <p class="step-description">Try before you buy with our interactive preview tools and demo versions</p>
+                </div>
+                <div class="step" role="listitem">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Purchase</h3>
+                    <p class="step-description">Complete your purchase securely with our trusted payment system</p>
+                </div>
+                <div class="step" role="listitem">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Download &amp; Create</h3>
+                    <p class="step-description">Get instant access to your files and start creating amazing content</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="partition-line"></div>
+</main>
+
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Marketplace</h3>
+                <ul>
+                    <li><a href="index">Browse Presets</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="creators.html">Top Creators</a></li>
+                    <li><a href="new-releases.html">New Releases</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>For Creators</h3>
+                <ul>
+                    <li><a href="become-creator.html">Become a Creator</a></li>
+                    <li><a href="dashboard.html">Creator Dashboard</a></li>
+                    <li><a href="pricing.html">Pricing Guidelines</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="press.html">Press</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2023 PresetMarket. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    // Before/After Comparison Slider
+    const presetComparison = document.getElementById('presetComparison');
+    const presetDivider = document.getElementById('presetDivider');
+    let isDragging = false;
+
+    presetDivider.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        presetDivider.style.transition = 'none';
+        document.body.style.cursor = 'ew-resize';
+    });
+
+    document.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+
+        const containerRect = presetComparison.getBoundingClientRect();
+        let xPosition = e.clientX - containerRect.left;
+
+        // Keep within bounds
+        xPosition = Math.max(0, Math.min(xPosition, containerRect.width));
+
+        const percentage = (xPosition / containerRect.width) * 100;
+
+        presetDivider.style.left = percentage + '%';
+        document.querySelector('.preset-after').style.width = percentage + '%';
+    });
+
+    document.addEventListener('mouseup', function () {
+        isDragging = false;
+        presetDivider.style.transition = 'left 0.1s ease';
+        document.body.style.cursor = '';
+    });
+
+    // Make category cards clickable
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const category = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            window.location.href = category;
         });
+    });
 
-        document.addEventListener('mousemove', function(e) {
-            if (!isDragging) return;
-            
-            const containerRect = presetComparison.getBoundingClientRect();
-            let xPosition = e.clientX - containerRect.left;
-            
-            // Keep within bounds
-            xPosition = Math.max(0, Math.min(xPosition, containerRect.width));
-            
-            const percentage = (xPosition / containerRect.width) * 100;
-            
-            presetDivider.style.left = percentage + '%';
-            document.querySelector('.preset-after').style.width = percentage + '%';
+    // Make creator cards clickable
+    document.querySelectorAll('.creator-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const creatorUrl = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            window.location.href = creatorUrl;
         });
+    });
 
-        document.addEventListener('mouseup', function() {
-            isDragging = false;
-            presetDivider.style.transition = 'left 0.1s ease';
-            document.body.style.cursor = '';
-        });
-
-        // Make category cards clickable
-        document.querySelectorAll('.category-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const category = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-                window.location.href = category;
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
-
-        // Make creator cards clickable
-        document.querySelectorAll('.creator-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const creatorUrl = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-                window.location.href = creatorUrl;
-            });
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
